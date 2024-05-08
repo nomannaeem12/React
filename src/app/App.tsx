@@ -1,9 +1,9 @@
 import './App.css'
-import {Login} from "./authentication/pages/login/login.tsx";
+import {SignIn} from "./authentication/pages/signIn/signIn.tsx";
 function App() {
   return (
     <>
-      <Login/>
+      <SignIn/>
     </>
   )
 }

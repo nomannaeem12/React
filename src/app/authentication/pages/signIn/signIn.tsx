@@ -1,16 +1,18 @@
 import vfs_logo from '../../../../assets/VFS_logo.png';
 import {Box, Button, Card, Container, Link, TextField} from "@mui/material";
 import {Field, Form, Formik} from "formik";
+import {SignInAPI} from "../../api/authApi.tsx";
 
-interface FormValues {
-    email: string;
-    password: string;
+interface FormValues extends CredentialDto {
+
 }
 
-function Login(){
+export function SignIn(){
 
     const  handleLogin = (values: FormValues) => {
-        alert(`Login with email ${values.email}`);
+        SignInAPI(values).then(()=>{
+            alert(`Login with email ${values.email}`);
+        })
     }
 
     return (
@@ -54,4 +56,9 @@ function Login(){
     )
 }
 
-export {Login};
+export {SignInAPI};
+
+export interface CredentialDto {
+    email: string;
+    password: string;
+}
