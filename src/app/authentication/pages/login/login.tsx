@@ -1,13 +1,18 @@
-import {useState} from "react";
 import vfs_logo from '../../../../assets/VFS_logo.png';
 import {Box, Button, Card, Container, Link, TextField} from "@mui/material";
+import {Field, Form, Formik} from "formik";
+
+interface FormValues {
+    email: string;
+    password: string;
+}
+
 function Login(){
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [passworda, setPassworda] = useState([]);
-    function handleLogin(){
-        alert(`Login with email ${email}`);
+
+    const  handleLogin = (values: FormValues) => {
+        alert(`Login with email ${values.email}`);
     }
+
     return (
         <>
             <Container sx={{height: '100vh',display: 'flex',alignItems: 'center',justifyContent: 'center'}}>
@@ -16,16 +21,32 @@ function Login(){
                         <img src={vfs_logo} alt="logo" height="220px"/>
                     </Box>
                     <Card variant="elevation">
-                        <Container maxWidth="sm" sx={{marginBottom: '1rem'}}>
-                            <TextField label="Email" variant="filled" margin='normal' fullWidth  onChange={e => setEmail(e.target.value)}/>
-                            <TextField label="Password" variant="filled" margin='normal' fullWidth onChange={e => setPassword(e.target.value)}/>
-                        </Container>
-                        <Container  sx={{display:'flex',justifyContent: 'space-between',alignItems: 'end', marginBottom: '2rem'}}>
-                            <Link href="#" underline="always">
-                                Forgot password?
-                            </Link>
-                            <Button onClick={handleLogin} variant="contained" color='error'>Sign In</Button>
-                        </Container>
+                            <Formik initialValues={{email: '',password: ''}} onSubmit={(values )=>{
+                                handleLogin(values);
+                            }}>
+                                {({handleSubmit})=>(
+                                    <Form onSubmit={handleSubmit}>
+                                    <Container maxWidth="sm" sx={{marginBottom: '1rem'}}>
+                                        <Field name='email'>
+                                            {({field})=>(
+                                                <TextField label="Email" variant="filled" margin='normal' fullWidth {...field}/>
+                                            )}
+                                        </Field>
+                                        <Field name='password'>
+                                            {({field})=>(
+                                                <TextField label="Password" variant="filled" margin='normal' fullWidth {...field}/>
+                                            )}
+                                        </Field>
+                                    </Container>
+                                    <Container sx={{display:'flex',justifyContent: 'space-between',alignItems: 'end', marginBottom: '2rem'}}>
+                                        <Link href="#" underline="always">
+                                            Forgot password?
+                                        </Link>
+                                        <Button type='submit' variant="contained" color='error'>Sign In</Button>
+                                    </Container>
+                                </Form>
+                                )}
+                            </Formik>
                     </Card>
                 </Box>
             </Container>
