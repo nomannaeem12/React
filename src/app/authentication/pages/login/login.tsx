@@ -1,4 +1,3 @@
-import './login.css'
 import {useState} from "react";
 import vfs_logo from '../../../../assets/VFS_logo.png';
 import {Box, Button, Card, Container, Link, TextField} from "@mui/material";
