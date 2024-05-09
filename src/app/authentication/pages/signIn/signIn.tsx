@@ -1,7 +1,7 @@
 import vfs_logo from '../../../../assets/VFS_logo.png';
 import {Box, Button, Card, Container, Link, TextField} from "@mui/material";
 import {Field, Form, Formik} from "formik";
-import {SignInAPI} from "../../api/authApi.tsx";
+import {SignInAPI} from "../../services/auth.service.ts";
 
 interface FormValues extends CredentialDto {
 
@@ -17,7 +17,7 @@ export function SignIn(){
 
     return (
         <>
-            <Container sx={{height: '100vh',display: 'flex',alignItems: 'center',justifyContent: 'center'}}>
+            <Container sx={{height: '100%',display: 'flex',alignItems: 'center',justifyContent: 'center'}}>
                 <Box>
                     <Box sx={{display: 'flex',justifyContent: 'center',marginBottom: '2rem'}}>
                         <img src={vfs_logo} alt="logo" height="220px"/>
