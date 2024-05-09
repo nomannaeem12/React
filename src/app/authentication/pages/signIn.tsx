@@ -1,11 +1,10 @@
 import { Button, Card, Container, Link, TextField} from "@mui/material";
 import {Field, Form, Formik} from "formik";
-import {SignInAPI} from "../../../core/services/auth.service.ts";
+import {SignInAPI} from "../../core/services/auth.service.ts";
 import {useNavigate} from "react-router-dom";
+import {CredentialDto} from "../../core/interfaces/authenticationInterface.ts";
 
-interface FormValues extends CredentialDto {
-
-}
+interface FormValues extends CredentialDto {}
 
 export function SignIn(){
     const navigate = useNavigate();
@@ -51,7 +50,3 @@ export function SignIn(){
     )
 }
 
-export interface CredentialDto {
-    email: string;
-    password: string;
-}

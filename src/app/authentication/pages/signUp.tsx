@@ -1,10 +1,9 @@
 import {Button, Card, Container, Link, TextField} from "@mui/material";
 import {Field, Form, Formik} from "formik";
 import {useNavigate} from "react-router-dom";
+import {CredentialDto} from "../../core/interfaces/authenticationInterface.ts";
 
-interface FormValues extends CredentialDto {
-
-}
+interface FormValues extends CredentialDto {}
 
 export function SignUp(){
     const navigate = useNavigate();
@@ -48,9 +47,4 @@ export function SignUp(){
                     </Card>
         </>
     )
-}
-
-export interface CredentialDto {
-    email: string;
-    password: string;
 }

@@ -1,4 +1,4 @@
-import vfs_logo from '../../assets/VFS_logo.png';
+import vfs_logo from '../../../assets/VFS_logo.png';
 import {Box,Container} from "@mui/material";
 import {Outlet} from "react-router-dom";
 
