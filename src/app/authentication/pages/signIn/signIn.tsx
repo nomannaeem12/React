@@ -2,14 +2,17 @@ import vfs_logo from '../../../../assets/VFS_logo.png';
 import {Box, Button, Card, Container, Link, TextField} from "@mui/material";
 import {Field, Form, Formik} from "formik";
 import {SignInAPI} from "../../services/auth.service.ts";
+import {useNavigate} from "react-router-dom";
 
 interface FormValues extends CredentialDto {
 
 }
 
 export function SignIn(){
+    const navigate = useNavigate();
 
     const  handleLogin = (values: FormValues) => {
+        navigate('/home');
         SignInAPI(values).then(()=>{
             alert(`Login with email ${values.email}`);
         })
@@ -55,8 +58,6 @@ export function SignIn(){
         </>
     )
 }
-
-export {SignInAPI};
 
 export interface CredentialDto {
     email: string;
