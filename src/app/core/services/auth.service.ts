@@ -1,4 +1,4 @@
-import {CredentialDto} from "../pages/signIn/signIn.tsx";
+import {CredentialDto} from "../../authentication/pages/signIn/signIn.tsx";
 
 const BASE_URL = 'http://localhost:3000';
 

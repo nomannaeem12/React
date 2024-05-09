@@ -1,6 +1,6 @@
 import { Button, Card, Container, Link, TextField} from "@mui/material";
 import {Field, Form, Formik} from "formik";
-import {SignInAPI} from "../../services/auth.service.ts";
+import {SignInAPI} from "../../../core/services/auth.service.ts";
 import {useNavigate} from "react-router-dom";
 
 interface FormValues extends CredentialDto {
