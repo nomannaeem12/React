@@ -27,7 +27,7 @@ export function SignUp(){
                                     <Container maxWidth="sm" sx={{marginBottom: '1rem'}}>
                                         <Field name='email'>
                                             {({field})=>(
-                                                <TextField label="Username" variant="filled" margin='normal' fullWidth {...field}/>
+                                                <TextField label="Email" variant="filled" margin='normal' fullWidth {...field}/>
                                             )}
                                         </Field>
                                         <Field name='password'>
