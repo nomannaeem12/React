@@ -1,17 +1,16 @@
-import { Button, Card, Container, Link, TextField} from "@mui/material";
+import {Button, Card, Container, Link, TextField} from "@mui/material";
 import {Field, Form, Formik} from "formik";
-import {SignInAPI} from "../../services/auth.service.ts";
 import {useNavigate} from "react-router-dom";
 
 interface FormValues extends CredentialDto {
 
 }
 
-export function SignIn(){
+export function SignUp(){
     const navigate = useNavigate();
 
     const  handleLogin = (values: FormValues) => {
-        navigate('/sign-up')
+        navigate('/');
         // SignInAPI(values).then(()=>{
         //     alert(`Login with email ${values.email}`);
         // })
@@ -20,15 +19,15 @@ export function SignIn(){
     return (
         <>
             <Card variant="elevation">
-                            <Formik initialValues={{email: '',password: ''}} onSubmit={(values )=>{
-                                handleLogin(values);
-                            }}>
-                                {({handleSubmit})=>(
-                                    <Form onSubmit={handleSubmit}>
+                        <Formik initialValues={{email: '',password: ''}} onSubmit={(values )=>{
+                            handleLogin(values);
+                        }}>
+                            {({handleSubmit})=>(
+                                <Form onSubmit={handleSubmit}>
                                     <Container maxWidth="sm" sx={{marginBottom: '1rem'}}>
                                         <Field name='email'>
                                             {({field})=>(
-                                                <TextField label="Email" variant="filled" margin='normal' fullWidth {...field}/>
+                                                <TextField label="Username" variant="filled" margin='normal' fullWidth {...field}/>
                                             )}
                                         </Field>
                                         <Field name='password'>
@@ -41,11 +40,11 @@ export function SignIn(){
                                         <Link href="#" underline="always">
                                             Forgot password?
                                         </Link>
-                                        <Button type='submit' variant="contained" color='error'>Sign In</Button>
+                                        <Button type='submit' variant="contained" color='error'>Sign Up</Button>
                                     </Container>
                                 </Form>
-                                )}
-                            </Formik>
+                            )}
+                        </Formik>
                     </Card>
         </>
     )
