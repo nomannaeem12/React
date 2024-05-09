@@ -1,16 +1,20 @@
-import axios from 'axios';
 import {CredentialDto} from "../pages/signIn/signIn.tsx";
 
 const BASE_URL = 'http://localhost:3000';
 
 export const SignInAPI = async (credentials: CredentialDto) => {
     try {
-        const response = await axios.post(`${BASE_URL}/auth/login`,credentials);
-        return response.data;
+        const response = await fetch(`${BASE_URL}/auth/login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(credentials)
+        });
+        return await response.json();
+
     } catch (error) {
-        // Handle error
-        console.error('Error fetching users:', error);
+        console.error('Error signing in:', error);
         throw error;
     }
 };
-
