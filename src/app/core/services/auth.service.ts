@@ -1,8 +1,8 @@
-import {CredentialDto} from "../../authentication/pages/signIn.tsx";
+import {CredentialInterface} from "../../authentication/pages/signIn.tsx";
 
 const BASE_URL = 'http://localhost:3000';
 
-export const SignInAPI = async (credentials: CredentialDto) => {
+export const SignInAPI = async (credentials: CredentialInterface) => {
     try {
         const response = await fetch(`${BASE_URL}/auth/login`, {
             method: 'POST',
