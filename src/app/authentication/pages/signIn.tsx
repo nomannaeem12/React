@@ -5,6 +5,7 @@ import {CredentialInterface, SignInResponse} from "../../core/interfaces/authent
 import {useState} from "react";
 import * as yup from 'yup';
 import {setSignedInUser} from "../../core/services/user.service.ts";
+import {useNavigate} from "react-router-dom";
 
 interface FormValues extends CredentialInterface {
 }
@@ -15,16 +16,18 @@ export function SignIn() {
         open: false,
         message: '',
     });
+    const navigate = useNavigate();
     const handleLogin = (values: FormValues) => {
         setIsLoading(true);
         SignInAPI(values)
             .then((response) => {
                 setIsLoading(false)
                 if (response?.user) {
-                    setSnackbarState({ open: true, message: `Logged in Successfully` });
+                    setSnackbarState({open: true, message: `Logged in Successfully`});
                     setSignedInUser(response as SignInResponse);
+                    navigate('/home');
                 }
-                if (response?.statusCode === 401) return setSnackbarState({ open: true, message: `${response.message}` });
+                if (response?.statusCode === 401) return setSnackbarState({open: true, message: `${response.message}`});
             })
     };
 
@@ -38,7 +41,7 @@ export function SignIn() {
                 <Formik initialValues={{email: '', password: ''}} onSubmit={(values) => {
                     handleLogin(values);
                 }} validationSchema={credentialsValidation}>
-                    {({handleSubmit, errors, touched,values}) => (
+                    {({handleSubmit, errors, touched, values}) => (
                         <Form onSubmit={handleSubmit}>
                             <Container maxWidth="sm" sx={{marginBottom: '1rem'}}>
                                 <Field name="email">
@@ -75,8 +78,8 @@ export function SignIn() {
                                     Forgot password?
                                 </Link>
                                 <Button type='submit' variant="contained" color='error'
-                                        endIcon={isLoading ? <CircularProgress size={20} color="inherit" /> : null}
-                                        disabled={Object.keys(errors).length > 0 || !(values.email && values.password) }>
+                                        endIcon={isLoading ? <CircularProgress size={20} color="inherit"/> : null}
+                                        disabled={Object.keys(errors).length > 0 || !(values.email && values.password)}>
                                     {isLoading ? 'Signing In...' : 'Sign In'}
                                 </Button>
                                 <Snackbar
@@ -84,7 +87,7 @@ export function SignIn() {
                                     message={snackbarState.message}
                                     anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
                                     autoHideDuration={2000}
-                                    onClose={()=>setSnackbarState({...snackbarState,open: false})}
+                                    onClose={() => setSnackbarState({...snackbarState, open: false})}
                                 />
                             </Container>
                         </Form>

@@ -1,9 +1,9 @@
-import {Container} from "@mui/material";
+import Appbar from "../components/appbar.tsx";
 
-export function Home(){
+export function Home() {
     return (
         <>
-            <Container>Nouman</Container>
+            <Appbar/>
         </>
     );
 }
