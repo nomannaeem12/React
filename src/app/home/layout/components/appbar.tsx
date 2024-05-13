@@ -12,10 +12,9 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import {Button, Container, ListItemButton, ListItemIcon, ListItemText} from "@mui/material";
-import BlockIcon from '@mui/icons-material/Block';
-import {Outlet, useNavigate} from "react-router-dom";
+import {Link, Outlet, useNavigate} from "react-router-dom";
 import PersonIcon from '@mui/icons-material/Person';
-import { Link } from 'react-router-dom';
+
 const drawerWidth: number = 240;
 
 interface AppBarProps extends MuiAppBarProps {
@@ -71,9 +70,9 @@ export const mainListItems = (
     <React.Fragment>
         <ListItemButton to='/home/users' component={Link}>
             <ListItemIcon>
-                <PersonIcon />
+                <PersonIcon/>
             </ListItemIcon>
-            <ListItemText primary="Users" />
+            <ListItemText primary="Users"/>
         </ListItemButton>
 
         {/*<ListItemButton>*/}
@@ -151,9 +150,13 @@ export default function Appbar() {
         },
     });
 
+    function navigateToHome() {
+        navigator('/home');
+    }
+
     return (
         <ThemeProvider theme={theme}>
-            <Box sx={{display: 'flex' , height: '100%'}}>
+            <Box sx={{display: 'flex', height: '100%'}}>
                 <CssBaseline/>
                 <AppBar position="absolute" open={open}>
                     <Toolbar
@@ -178,7 +181,9 @@ export default function Appbar() {
                             variant="h6"
                             color="inherit"
                             noWrap
-                            sx={{flexGrow: 1}}
+                            sx={{flexGrow: 1, cursor: 'pointer'}}
+                            to='/home'
+                            onClick={navigateToHome}
                         >
                             Valued Freight Service
                         </Typography>
@@ -205,7 +210,7 @@ export default function Appbar() {
                         {secondaryListItems}
                     </List>
                 </Drawer>
-                <Container sx={{mt: '70px',maxWidth: 'none !important',width: 'auto'}}>
+                <Container sx={{mt: '70px', maxWidth: 'none !important', width: 'auto'}}>
                     <Outlet/>
                 </Container>
             </Box>

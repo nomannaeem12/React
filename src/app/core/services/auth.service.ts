@@ -11,7 +11,6 @@ export const SignInAPI = async (credentials: CredentialInterface) => {
             body: JSON.stringify(credentials)
         });
         return await response.json();
-
     } catch (error) {
         console.error('Error signing in:', error);
         throw error;
