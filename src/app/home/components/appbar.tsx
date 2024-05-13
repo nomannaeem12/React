@@ -76,53 +76,53 @@ export const mainListItems = (
             <ListItemText primary="User" />
         </ListItemButton>
 
-        <ListItemButton>
-            <ListItemIcon>
-                <BlockIcon/>
-            </ListItemIcon>
-            <ListItemText primary="Shipment"/>
-        </ListItemButton>
-        <ListItemButton>
-            <ListItemIcon>
-                <BlockIcon/>
-            </ListItemIcon>
-            <ListItemText primary="Company"/>
-        </ListItemButton>
-        <ListItemButton>
-            <ListItemIcon>
-                <BlockIcon/>
-            </ListItemIcon>
-            <ListItemText primary="Accounting"/>
-        </ListItemButton>
-        <ListItemButton>
-            <ListItemIcon>
-                <BlockIcon/>
-            </ListItemIcon>
-            <ListItemText primary="POC"/>
-        </ListItemButton>
+        {/*<ListItemButton>*/}
+        {/*    <ListItemIcon>*/}
+        {/*        <BlockIcon/>*/}
+        {/*    </ListItemIcon>*/}
+        {/*    <ListItemText primary="Shipment"/>*/}
+        {/*</ListItemButton>*/}
+        {/*<ListItemButton>*/}
+        {/*    <ListItemIcon>*/}
+        {/*        <BlockIcon/>*/}
+        {/*    </ListItemIcon>*/}
+        {/*    <ListItemText primary="Company"/>*/}
+        {/*</ListItemButton>*/}
+        {/*<ListItemButton>*/}
+        {/*    <ListItemIcon>*/}
+        {/*        <BlockIcon/>*/}
+        {/*    </ListItemIcon>*/}
+        {/*    <ListItemText primary="Accounting"/>*/}
+        {/*</ListItemButton>*/}
+        {/*<ListItemButton>*/}
+        {/*    <ListItemIcon>*/}
+        {/*        <BlockIcon/>*/}
+        {/*    </ListItemIcon>*/}
+        {/*    <ListItemText primary="POC"/>*/}
+        {/*</ListItemButton>*/}
     </React.Fragment>
 );
 
 export const secondaryListItems = (
     <React.Fragment>
-        <ListItemButton>
-            <ListItemIcon>
-                <BlockIcon/>
-            </ListItemIcon>
-            <ListItemText primary="VIN"/>
-        </ListItemButton>
-        <ListItemButton>
-            <ListItemIcon>
-                <BlockIcon/>
-            </ListItemIcon>
-            <ListItemText primary="Pallets"/>
-        </ListItemButton>
-        <ListItemButton>
-            <ListItemIcon>
-                <BlockIcon/>
-            </ListItemIcon>
-            <ListItemText primary="Commodities"/>
-        </ListItemButton>
+        {/*<ListItemButton>*/}
+        {/*    <ListItemIcon>*/}
+        {/*        <BlockIcon/>*/}
+        {/*    </ListItemIcon>*/}
+        {/*    <ListItemText primary="VIN"/>*/}
+        {/*</ListItemButton>*/}
+        {/*<ListItemButton>*/}
+        {/*    <ListItemIcon>*/}
+        {/*        <BlockIcon/>*/}
+        {/*    </ListItemIcon>*/}
+        {/*    <ListItemText primary="Pallets"/>*/}
+        {/*</ListItemButton>*/}
+        {/*<ListItemButton>*/}
+        {/*    <ListItemIcon>*/}
+        {/*        <BlockIcon/>*/}
+        {/*    </ListItemIcon>*/}
+        {/*    <ListItemText primary="Commodities"/>*/}
+        {/*</ListItemButton>*/}
     </React.Fragment>
 );
 
