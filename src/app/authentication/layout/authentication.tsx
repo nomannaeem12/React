@@ -16,7 +16,7 @@ export function Authentication() {
                                     <Typography sx={{fontSize: '40px', mb: '10px'}}>
                                         Sign in
                                     </Typography>
-                                    <Typography sx={{fontSize: '18px'}}>
+                                    <Typography>
                                         Use your TMS account
                                     </Typography>
                                 </Box>
