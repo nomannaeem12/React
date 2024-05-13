@@ -77,7 +77,7 @@ export function SignIn() {
                                 <Typography sx={{mt: '20px'}}>
                                     create new account by using
                                     our google services or by using this
-                                    <Link href="#" underline="always" sx={{ml: '5px'}}>link</Link>
+                                    <Link href="#" underline="always" sx={{ml: '5px'}} tabIndex={1}>link</Link>
                                 </Typography>
                             </Box>
                         </Container>
@@ -87,7 +87,7 @@ export function SignIn() {
                             alignItems: 'end',
                             marginBottom: '2rem'
                         }}>
-                            <Link href="#" underline="always">
+                            <Link href="#" underline="always" tabIndex={1}>
                                 Forgot password?
                             </Link>
                             <Button type='submit' variant="contained" color='error'

@@ -20,6 +20,7 @@ function App() {
                 <Route path="home" element={<AuthGuard><Home/></AuthGuard>}>
                     <Route path="users" element={<Users/>}/>
                 </Route>
+                <Route path="*" element={<p>Not Found</p>}/>
             </Routes>
         </>
     )
