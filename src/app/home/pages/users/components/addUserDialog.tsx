@@ -3,6 +3,7 @@ import Button from '@mui/material/Button';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import {DialogContent} from "@mui/material";
+import Box from "@mui/material/Box";
 
 export interface AddUserDialogProps {
     open: boolean;
@@ -19,8 +20,10 @@ function Content(props: AddUserDialogProps) {
     return (
         <Dialog onClose={handleClose} open={open}>
             <DialogTitle>ADD USER</DialogTitle>
-            <DialogContent>
+            <DialogContent sx={{height: '400px', width: '400px'}}>
+                <Box>
 
+                </Box>
             </DialogContent>
         </Dialog>
     );
