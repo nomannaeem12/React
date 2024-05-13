@@ -1,4 +1,4 @@
-import Appbar from "../components/appbar.tsx";
+import Appbar from "./components/appbar.tsx";
 
 export function Home() {
     return (
