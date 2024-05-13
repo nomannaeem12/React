@@ -1,9 +1,8 @@
 import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
 import {User} from "../../../../core/interfaces/user.ts";
 import moment from 'moment';
-import {date} from "yup";
 
-function formatDateToShort(value: date): date {
+function formatDateToShort(value: Date): string {
         return moment(value).format('h:mm a, M/d/yy');
 }
 
@@ -32,7 +31,7 @@ export function UsersTable({users} : {users: User[]}){
                                 <TableCell>{user.firstName} {user.lastName}</TableCell>
                                 <TableCell>{user.email}</TableCell>
                                 <TableCell>{formatDateToShort(user.createdAt)}</TableCell>
-                                <TableCell>{user.role}</TableCell>
+                                <TableCell>{user.role.replaceAll('_',' ')}</TableCell>
                                 <TableCell>{formatDateToShort(user.lastActivity)}</TableCell>
                                 <TableCell>{formatDateToShort(user.lastLogin)}</TableCell>
                                 <TableCell>{user.status}</TableCell>
