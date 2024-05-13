@@ -73,7 +73,7 @@ export const mainListItems = (
             <ListItemIcon>
                 <PersonIcon />
             </ListItemIcon>
-            <ListItemText primary="User" />
+            <ListItemText primary="Users" />
         </ListItemButton>
 
         {/*<ListItemButton>*/}
@@ -133,7 +133,7 @@ export default function Appbar() {
         localStorage.clear();
         navigator('/');
     };
-    const [open, setOpen] = React.useState(true);
+    const [open, setOpen] = React.useState(false);
     const toggleDrawer = () => {
         setOpen(!open);
     };
