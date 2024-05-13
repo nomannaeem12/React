@@ -11,10 +11,11 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import {Button, ListItemButton, ListItemIcon, ListItemText} from "@mui/material";
-import AcUnitIcon from '@mui/icons-material/AcUnit';
-import {useNavigate} from "react-router-dom";
-
+import {Button, Container, ListItemButton, ListItemIcon, ListItemText} from "@mui/material";
+import BlockIcon from '@mui/icons-material/Block';
+import {Outlet, useNavigate} from "react-router-dom";
+import PersonIcon from '@mui/icons-material/Person';
+import { Link } from 'react-router-dom';
 const drawerWidth: number = 240;
 
 interface AppBarProps extends MuiAppBarProps {
@@ -68,33 +69,34 @@ const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})
 
 export const mainListItems = (
     <React.Fragment>
-        <ListItemButton>
+        <ListItemButton to='/home/users' component={Link}>
             <ListItemIcon>
-                <AcUnitIcon/>
+                <PersonIcon />
             </ListItemIcon>
-            <ListItemText primary="User"/>
+            <ListItemText primary="User" />
         </ListItemButton>
+
         <ListItemButton>
             <ListItemIcon>
-                <AcUnitIcon/>
+                <BlockIcon/>
             </ListItemIcon>
             <ListItemText primary="Shipment"/>
         </ListItemButton>
         <ListItemButton>
             <ListItemIcon>
-                <AcUnitIcon/>
+                <BlockIcon/>
             </ListItemIcon>
             <ListItemText primary="Company"/>
         </ListItemButton>
         <ListItemButton>
             <ListItemIcon>
-                <AcUnitIcon/>
+                <BlockIcon/>
             </ListItemIcon>
             <ListItemText primary="Accounting"/>
         </ListItemButton>
         <ListItemButton>
             <ListItemIcon>
-                <AcUnitIcon/>
+                <BlockIcon/>
             </ListItemIcon>
             <ListItemText primary="POC"/>
         </ListItemButton>
@@ -103,26 +105,23 @@ export const mainListItems = (
 
 export const secondaryListItems = (
     <React.Fragment>
-        <AcUnitIcon component="div" inset>
-            Saved reports
-        </AcUnitIcon>
         <ListItemButton>
             <ListItemIcon>
-                <AcUnitIcon/>
+                <BlockIcon/>
             </ListItemIcon>
-            <ListItemText primary="Current month"/>
+            <ListItemText primary="VIN"/>
         </ListItemButton>
         <ListItemButton>
             <ListItemIcon>
-                <AcUnitIcon/>
+                <BlockIcon/>
             </ListItemIcon>
-            <ListItemText primary="Last quarter"/>
+            <ListItemText primary="Pallets"/>
         </ListItemButton>
         <ListItemButton>
             <ListItemIcon>
-                <AcUnitIcon/>
+                <BlockIcon/>
             </ListItemIcon>
-            <ListItemText primary="Year-end sale"/>
+            <ListItemText primary="Commodities"/>
         </ListItemButton>
     </React.Fragment>
 );
@@ -154,7 +153,7 @@ export default function Appbar() {
 
     return (
         <ThemeProvider theme={theme}>
-            <Box sx={{display: 'flex'}}>
+            <Box sx={{display: 'flex' , height: '100%'}}>
                 <CssBaseline/>
                 <AppBar position="absolute" open={open}>
                     <Toolbar
@@ -206,6 +205,9 @@ export default function Appbar() {
                         {secondaryListItems}
                     </List>
                 </Drawer>
+                <Container sx={{mt: '70px',maxWidth: 'none !important',width: 'auto'}}>
+                    <Outlet/>
+                </Container>
             </Box>
         </ThemeProvider>
     );

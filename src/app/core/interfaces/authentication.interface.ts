@@ -1,4 +1,4 @@
-import {UserInterface} from "./user.interface.ts";
+import {User} from "./user.ts";
 
 export interface CredentialInterface {
     email: string;
@@ -8,5 +8,5 @@ export interface CredentialInterface {
 
 export interface SignInResponse {
     access_token: string;
-    user: UserInterface;
+    user: User;
 }

@@ -1,10 +1,9 @@
 import {CredentialInterface} from "../../authentication/pages/signIn.tsx";
-
-const BASE_URL = 'http://localhost:3000';
+import {environment} from "../../envirnment.ts";
 
 export const SignInAPI = async (credentials: CredentialInterface) => {
     try {
-        const response = await fetch(`${BASE_URL}/auth/login`, {
+        const response = await fetch(`${environment.baseurl}/auth/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

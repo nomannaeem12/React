@@ -1,6 +1,6 @@
 import {BasicEntity} from "./basic-entity.interface.ts";
 
-export interface UserInterface extends BasicEntity {
+export interface User extends BasicEntity {
     firstName: string;
     lastName: string;
     jobTitle: string;

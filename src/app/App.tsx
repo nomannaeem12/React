@@ -6,6 +6,7 @@ import {SignIn} from "./authentication/pages/signIn.tsx";
 import {SignUp} from "./authentication/pages/signUp.tsx";
 import {AuthGuard} from "./core/guards/authGuard.tsx";
 import {LoginGuard} from "./core/guards/loginGuard.tsx";
+import {Users} from "./home/pages/users/users.tsx";
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
                     <Route path="sign-up" element={<SignUp/>}/>
                 </Route>
                 <Route path="home" element={<AuthGuard><Home/></AuthGuard>}>
+                    <Route path="users" element={<Users/>}/>
                 </Route>
             </Routes>
         </>
