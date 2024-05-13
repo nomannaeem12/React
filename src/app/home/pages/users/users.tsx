@@ -12,10 +12,8 @@ export function Users() {
     useEffect(() => {
         setLoadingState(true);
         getUsersAPI().then((response: User[]) => {
-            setTimeout(() => {
-                setUsers(response);
-                setLoadingState(false);
-            }, 1000)
+            setUsers(response);
+            setLoadingState(false);
         })
     }, [])
     return (

@@ -1,7 +1,7 @@
 import {Button, CircularProgress, Container, Link, Snackbar, TextField} from "@mui/material";
 import {Field, Form, Formik} from "formik";
 import {SignInAPI} from "../../core/services/auth.service.ts";
-import {CredentialInterface, SignInResponse} from "../../core/interfaces/authentication.interface.ts";
+import {SignInDTO, SignInResponse} from "../../core/interfaces/authentication.interface.ts";
 import {useState} from "react";
 import * as yup from 'yup';
 import {setSignedInUser} from "../../core/services/user.service.ts";
@@ -9,7 +9,7 @@ import {useNavigate} from "react-router-dom";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
-interface FormValues extends CredentialInterface {
+interface FormValues extends SignInDTO {
 }
 
 export function SignIn() {
