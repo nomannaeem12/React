@@ -2,25 +2,25 @@ import * as React from 'react';
 import Button from '@mui/material/Button';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
-import Typography from '@mui/material/Typography';
+import {DialogContent} from "@mui/material";
 
 export interface AddUserDialogProps {
     open: boolean;
-    onClose: (value: string) => void;
+    onClose: (value: boolean) => void;
 }
 
-function DialogContent(props: AddUserDialogProps) {
-    const { onClose, open } = props;
+function Content(props: AddUserDialogProps) {
+    const {onClose, open} = props;
 
     const handleClose = () => {
-        onClose('');
+        onClose(false);
     };
 
     return (
         <Dialog onClose={handleClose} open={open}>
             <DialogTitle>ADD USER</DialogTitle>
             <DialogContent>
-                
+
             </DialogContent>
         </Dialog>
     );
@@ -33,8 +33,8 @@ export function AddUserDialog() {
         setOpen(true);
     };
 
-    const handleClose = (value: string) => {
-        setOpen(false);
+    const handleClose = (value: boolean) => {
+        setOpen(value);
     };
 
     return (
@@ -42,7 +42,7 @@ export function AddUserDialog() {
             <Button variant="outlined" onClick={handleClickOpen}>
                 Add User
             </Button>
-            <DialogContent
+            <Content
                 open={open}
                 onClose={handleClose}
             />
