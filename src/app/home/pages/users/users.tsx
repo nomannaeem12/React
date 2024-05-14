@@ -19,7 +19,7 @@ export function Users() {
     return (
         <>
             {!isLoading && <Box sx={{textAlign: "end"}}>
-                <Box sx={{m: '15px 0'}}>
+                <Box sx={{m: '15px'}}>
                     <AddUserDialog/>
                 </Box>
                 <UsersTable users={users}/>
