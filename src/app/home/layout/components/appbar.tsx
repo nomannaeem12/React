@@ -210,7 +210,7 @@ export default function Appbar() {
                         {secondaryListItems}
                     </List>
                 </Drawer>
-                <Container sx={{mt: '70px', maxWidth: 'none !important', width: 'auto'}}>
+                <Container sx={{mt: '70px', maxWidth: 'none !important', width: 'auto', overflow: 'hidden'}}>
                     <Outlet/>
                 </Container>
             </Box>
