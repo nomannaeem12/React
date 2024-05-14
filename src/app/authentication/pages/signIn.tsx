@@ -1,5 +1,5 @@
 import {Button, CircularProgress, Container, Link, Snackbar, TextField} from "@mui/material";
-import {Field, Form, Formik} from "formik";
+import {Form, Formik, useFormik} from "formik";
 import {SignInAPI} from "../../core/services/auth.service.ts";
 import {SignInDTO, SignInResponse} from "../../core/interfaces/authentication.interface.ts";
 import {useState} from "react";
@@ -19,7 +19,7 @@ export function SignIn() {
         message: '',
     });
     const navigate = useNavigate();
-    const handleLogin = (values: FormValues) => {
+    const handleSignIn = (values: FormValues) => {
         setIsLoading(true);
         SignInAPI(values)
             .then((response) => {
@@ -37,42 +37,45 @@ export function SignIn() {
         email: yup.string().email('Invalid email format').required('Email is required'),
         password: yup.string().required('Password is required'),
     });
+
+    const {values, handleChange, handleBlur, handleSubmit, errors, touched} = useFormik({
+        initialValues: {email: '', password: ''},
+        onSubmit: handleSignIn,
+        validationSchema: credentialsValidation,
+    });
     return (
         <>
-            <Formik initialValues={{email: '', password: ''}} onSubmit={(values) => {
-                handleLogin(values);
-            }} validationSchema={credentialsValidation}>
-                {({handleSubmit, errors, touched, values}) => (
+            <Formik initialValues={values} validationSchema={credentialsValidation}>
+                {() => (
                     <Form onSubmit={handleSubmit}>
                         <Container maxWidth="sm" sx={{marginBottom: '1rem', width: '450px'}}>
                             <Box>
                                 <Box sx={{height: '85px'}}>
-                                    <Field name="email">
-                                        {({field}) => (
-                                            <TextField
-                                                label="Email"
-                                                variant="outlined"
-                                                margin="normal"
-                                                fullWidth
-                                                {...field}
-                                                helperText={touched.email && errors.email}
-                                            />
-                                        )}
-                                    </Field>
+                                    <TextField
+                                        name="email"
+                                        label="Email"
+                                        variant="outlined"
+                                        margin="normal"
+                                        fullWidth
+                                        value={values.email}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        helperText={touched.email && errors.email}
+                                    />
                                 </Box>
                                 <Box sx={{height: '85px'}}>
-                                    <Field name='password'>
-                                        {({field}) => (
-                                            <TextField
-                                                label="Password"
-                                                variant="outlined"
-                                                margin='normal'
-                                                type='password'
-                                                fullWidth {...field}
-                                                helperText={touched.password && errors.password}
-                                            />
-                                        )}
-                                    </Field>
+                                    <TextField
+                                        name="password"
+                                        label="Password"
+                                        variant="outlined"
+                                        margin='normal'
+                                        type='password'
+                                        fullWidth
+                                        value={values.password}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        helperText={touched.password && errors.password}
+                                    />
                                 </Box>
                                 <Typography sx={{mt: '20px'}}>
                                     create new account by using

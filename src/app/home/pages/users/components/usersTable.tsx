@@ -25,7 +25,7 @@ export function UsersTable({users}: { users: User[] }) {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {users.filter(user => user).map((user) => (
+                        {users.map((user) => (
                             <TableRow key={user.id}>
                                 <TableCell>{user.id}</TableCell>
                                 <TableCell>{user.firstName} {user.lastName}</TableCell>
