@@ -16,11 +16,17 @@ export function Users() {
             setLoadingState(false);
         })
     }, [])
+    const addNewUser = (data: User) => {
+        setUsers([data,...users]);
+    };
+    const loadingState = (state: boolean) => {
+        setLoadingState(state);
+    }
     return (
         <>
             {!isLoading && <Box sx={{textAlign: "end"}}>
                 <Box sx={{m: '15px 0'}}>
-                    <AddUserDialog/>
+                    <AddUserDialog addNewUser={addNewUser} loadingState={loadingState}/>
                 </Box>
                 <UsersTable users={users}/>
             </Box>}
