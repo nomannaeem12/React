@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {useContext} from 'react';
 import {createTheme, styled, ThemeProvider} from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
@@ -14,6 +15,8 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import {Button, Container, ListItemButton, ListItemIcon, ListItemText} from "@mui/material";
 import {Link, Outlet, useNavigate} from "react-router-dom";
 import PersonIcon from '@mui/icons-material/Person';
+import {LoaderContext, LoaderProvider} from "../../../core/providers/loaderProvider.tsx";
+import {CustomLoader} from "../../../shared/customLoader.tsx";
 
 const drawerWidth: number = 240;
 
@@ -128,6 +131,7 @@ export const secondaryListItems = (
 
 export default function Appbar() {
     const navigator = useNavigate();
+    const {isLoading} = useContext(LoaderContext);
     const handleLogout = () => {
         localStorage.clear();
         navigator('/');
@@ -211,7 +215,10 @@ export default function Appbar() {
                     </List>
                 </Drawer>
                 <Container sx={{mt: '70px', maxWidth: 'none !important', width: 'auto', overflow: 'hidden'}}>
-                    <Outlet/>
+                    <LoaderProvider>
+                        {!isLoading && <Outlet/>}
+                        <CustomLoader/>
+                    </LoaderProvider>
                 </Container>
             </Box>
         </ThemeProvider>
