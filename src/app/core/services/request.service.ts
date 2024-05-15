@@ -1,5 +1,5 @@
 import {environment} from "../../envirnment.ts";
-import SignInDTO from "../interfaces/authentication.interface.ts";
+import {SignInDTO} from "../interfaces/authentication.interface.ts";
 import {User} from "../interfaces/user.ts";
 
 export const createRequest = async (url: string, method: string, body?: SignInDTO | Partial<User>) => {

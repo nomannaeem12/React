@@ -6,7 +6,7 @@ export function setSignedInUser(response: SignInResponse) {
     localStorage.setItem('SignedIn', JSON.stringify(response));
 }
 
-export const getUsersAPI = async () => {
+export const getUsers = async () => {
     const request = createRequest('/users', 'GET');
     try {
         const response = await request;
@@ -21,7 +21,7 @@ export const getUsersAPI = async () => {
     }
 }
 
-export const AddUserAPI = async (body: Partial<User>) => {
+export const addUser = async (body: Partial<User>) => {
     const request = createRequest('/auth/register', 'POST',body);
     try {
         const response = await request;

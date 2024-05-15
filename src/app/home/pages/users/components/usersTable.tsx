@@ -6,12 +6,11 @@ function formatDateToShort(value: Date): string {
     return moment(value).format('h:mm a, M/d/yy');
 }
 
-
 export function UsersTable({users}: { users: User[] }) {
     return (
         <>
-            <TableContainer component={Paper}>
-                <Table stickyHeader sx={{width: 'max-content', height: 500, minWidth: 1000}} aria-label="simple table">
+            <TableContainer component={Paper} sx={{height: '800px'}}>
+                <Table stickyHeader sx={{width: 'max-content !important'}} aria-label="simple table">
                     <TableHead>
                         <TableRow>
                             <TableCell sx={{fontWeight: 'bold'}}>ID #</TableCell>

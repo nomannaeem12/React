@@ -1,5 +1,5 @@
 import {createRequest} from "./request.service.ts";
-import SignInDTO from "../interfaces/authentication.interface.ts";
+import {SignInDTO} from "../interfaces/authentication.interface.ts";
 
 export const SignInAPI = async (credentials: SignInDTO) => {
     const request = createRequest('/auth/login', 'POST', credentials);
