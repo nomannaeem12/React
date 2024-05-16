@@ -30,7 +30,7 @@ export function UsersTable({users}: { users: User[] }) {
                                 <TableCell>{user.firstName} {user.lastName}</TableCell>
                                 <TableCell>{user.email}</TableCell>
                                 <TableCell>{formatDateToShort(user.createdAt)}</TableCell>
-                                <TableCell>{user.role.replaceAll('_', ' ')}</TableCell>
+                                <TableCell>{user.role.replace(/_/g, ' ')}</TableCell>
                                 <TableCell>{formatDateToShort(user.lastActivity)}</TableCell>
                                 <TableCell>{formatDateToShort(user.lastLogin)}</TableCell>
                                 <TableCell>{user.status}</TableCell>

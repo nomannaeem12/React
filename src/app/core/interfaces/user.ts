@@ -4,7 +4,7 @@ export interface User extends BasicEntity {
     firstName: string;
     lastName: string;
     jobTitle: string;
-    role: Role_Types;
+    role: string;
     status: Status_Types;
     email: string;
     password: string;

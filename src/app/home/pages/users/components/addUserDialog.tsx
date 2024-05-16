@@ -1,15 +1,14 @@
-import * as React from 'react';
 import {useState} from 'react';
 import Button from '@mui/material/Button';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import {CircularProgress, DialogContent, MenuItem, Snackbar, TextField} from "@mui/material";
 import Box from "@mui/material/Box";
-import {Role_Types, User} from "../../../../core/interfaces/user.ts";
+import {User} from "../../../../core/interfaces/user.ts";
 import Divider from "@mui/material/Divider";
 import {Form, Formik, useFormik} from "formik";
 import * as yup from "yup";
-import {addUser} from "../../../../core/services/user.service.ts";
+import userService from "../../../../core/services/user.service.ts";
 import CloseIcon from '@mui/icons-material/Close';
 import IconButton from "@mui/material/IconButton";
 
@@ -23,7 +22,7 @@ interface FormValues {
     lastName: string;
     email: string;
     jobTitle: string;
-    role: Role_Types;
+    role: string;
     password: string;
 }
 
@@ -47,7 +46,7 @@ export function AddUserDialog(props: AddUserDialogContentProps) {
         const selectedScopes = scopes.find((s) => s.title === values.role)?.directories;
         const payload = {...values, role: handleRole(values.role), scopes: selectedScopes};
         setIsLoading(true);
-        addUser(payload).then((response) => {
+        userService.addUser(payload).then((response) => {
             setIsLoading(false);
             if (response.id) {
                 setSnackbarState({open: true, message: `User Added Successfully`});
@@ -59,8 +58,8 @@ export function AddUserDialog(props: AddUserDialogContentProps) {
         })
     }
 
-    function handleRole(value: string): Role_Types {
-        return value === 'Super Admin' ? 'SUPERADMIN' : value.replaceAll(' ', '_');
+    function handleRole(value: string): string {
+        return value === 'Super Admin' ? 'SUPERADMIN' : value.replace(/_/g, '_');
     }
 
     const {values, handleChange, handleBlur, handleSubmit, errors, touched} = useFormik({

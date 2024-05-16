@@ -1,10 +1,10 @@
+import * as React from "react";
 import {useContext, useEffect, useState} from "react";
-import {getUsers} from "../../../core/services/user.service.ts";
+import userService from "../../../core/services/user.service.ts";
 import {User} from "../../../core/interfaces/user.ts";
 import {UsersTable} from "./components/usersTable.tsx";
 import {Box} from "@mui/material";
 import {LoaderContext} from "../../../core/providers/loaderProvider.tsx";
-import * as React from "react";
 import Button from "@mui/material/Button";
 import {AddUserDialog} from "./components/addUserDialog.tsx";
 
@@ -13,7 +13,7 @@ export function Users() {
     const [users, setUsers] = useState<User[]>([]);
     useEffect(() => {
         toggleLoading(true);
-        getUsers().then((response: User[]) => {
+        userService.getUsers().then((response: User[]) => {
             setUsers(response);
             toggleLoading(false);
         })
@@ -32,7 +32,6 @@ export function Users() {
         </>
     )
 }
-
 
 
 function AddUserDialogButton({addNewUser}: { addNewUser: (data: User) => void }) {
