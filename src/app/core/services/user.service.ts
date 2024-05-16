@@ -1,4 +1,4 @@
-import {SignInResponse} from "../interfaces/authentication.interface.ts";
+import {SignIn} from "../interfaces/authentication.interface.ts";
 import {createRequest} from "./request.service.ts";
 import {User} from "../interfaces/user.ts";
 
@@ -7,30 +7,28 @@ interface UserService {
     addUser: (user: Partial<User>) => Promise<User>;
 }
 
-export function setSignedInUser(response: SignInResponse) {
+export function setSignedInUser(response: SignIn) {
     localStorage.setItem('SignedIn', JSON.stringify(response));
 }
 
-export const getUsers = async () => {
+export const getUsers = async (): Promise<User[]> => {
     const request = createRequest('/users', 'GET');
     const response = await request;
-    const jsonResponse = await response.json();
     if (!response.ok) {
         handleAuthenticationError(response);
-        throw new Error(jsonResponse.error);
+        throw new Error((await response.json()).error);
     }
-    return jsonResponse;
+    return await response.json();
 }
 
-export const addUser = async (body: Partial<User>) => {
+export const addUser = async (body: Partial<User>): Promise<User> => {
     const request = createRequest('/auth/register', 'POST', body);
     const response = await request;
-    const jsonResponse = await response.json();
     if (!response.ok) {
         handleAuthenticationError(response);
-        throw new Error(jsonResponse.error);
+        throw new Error((await response.json()).error);
     }
-    return jsonResponse;
+    return await response.json();
 }
 
 const handleAuthenticationError = (response: Response) => {

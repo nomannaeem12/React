@@ -6,7 +6,7 @@ export interface SignInDTO {
 }
 
 
-export interface SignInResponse {
+export interface SignIn {
     access_token: string;
     user: User;
 }

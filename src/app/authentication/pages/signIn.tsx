@@ -1,13 +1,13 @@
 import {Button, CircularProgress, Container, Link, Snackbar, TextField} from "@mui/material";
 import {Form, Formik, useFormik} from "formik";
-import {SignInAPI} from "../../core/services/auth.service.ts";
-import {SignInDTO, SignInResponse} from "../../core/interfaces/authentication.interface.ts";
+import {SignInDTO} from "../../core/interfaces/authentication.interface.ts";
 import {useState} from "react";
 import * as yup from 'yup';
 import {setSignedInUser} from "../../core/services/user.service.ts";
 import {useNavigate} from "react-router-dom";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import authenticationService from "../../core/services/auth.service.ts";
 
 interface FormValues extends SignInDTO {
 }
@@ -21,16 +21,14 @@ export function SignIn() {
     const navigate = useNavigate();
     const handleSignIn = (values: FormValues) => {
         setIsLoading(true);
-        SignInAPI(values)
+        authenticationService.signIn(values)
             .then((response) => {
-                setIsLoading(false)
-                if (response?.user) {
-                    setSnackbarState({open: true, message: `Logged in Successfully`});
-                    setSignedInUser(response as SignInResponse);
-                    navigate('/home');
-                }
-                if (!response.ok) return setSnackbarState({open: true, message: `${response.message}`});
+                setSnackbarState({open: true, message: `Logged in Successfully`});
+                setSignedInUser(response);
+                navigate('/home');
             })
+            .catch((error) => setSnackbarState({open: true, message: `${error.message}`}))
+            .finally(() => setIsLoading(false))
     };
 
     const credentialsValidation = yup.object({
