@@ -11,6 +11,7 @@ import {Form, Formik, useFormik} from "formik";
 import * as yup from "yup";
 import {addUser} from "../../../../core/services/user.service.ts";
 import CloseIcon from '@mui/icons-material/Close';
+import IconButton from "@mui/material/IconButton";
 
 interface AddUserDialogContentProps {
     open: boolean;
@@ -77,12 +78,9 @@ function Content(props: AddUserDialogContentProps) {
             <Dialog open={open}>
                 <DialogTitle sx={{padding: '10px 24px 0px 24px',display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                     ADD USER
-                    <Box
-                        onClick={handleClose}
-                        sx={{display: 'flex', background: '#00000014', borderRadius: '10px', cursor: 'pointer'}}
-                    >
+                    <IconButton aria-label="delete" size="small" onClick={handleClose}>
                         <CloseIcon/>
-                    </Box>
+                    </IconButton>
                 </DialogTitle>
                 <DialogContent sx={{width: 'auto'}}>
                     <Formik initialValues={values} onSubmit={handleAddUser}>
