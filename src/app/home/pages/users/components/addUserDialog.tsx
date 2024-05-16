@@ -10,6 +10,7 @@ import Divider from "@mui/material/Divider";
 import {Form, Formik, useFormik} from "formik";
 import * as yup from "yup";
 import {addUser} from "../../../../core/services/user.service.ts";
+import CloseIcon from '@mui/icons-material/Close';
 
 interface AddUserDialogContentProps {
     open: boolean;
@@ -73,8 +74,16 @@ function Content(props: AddUserDialogContentProps) {
 
     return (
         <>
-            <Dialog open={open} onClose={handleClose}>
-                <DialogTitle sx={{padding: '10px 24px 0px 24px'}}>ADD USER</DialogTitle>
+            <Dialog open={open}>
+                <DialogTitle sx={{padding: '10px 24px 0px 24px',display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                    ADD USER
+                    <Box
+                        onClick={handleClose}
+                        sx={{display: 'flex', background: '#00000014', borderRadius: '10px', cursor: 'pointer'}}
+                    >
+                        <CloseIcon/>
+                    </Box>
+                </DialogTitle>
                 <DialogContent sx={{width: 'auto'}}>
                     <Formik initialValues={values} onSubmit={handleAddUser}>
                         {() => (
