@@ -3,8 +3,10 @@ import {getUsers} from "../../../core/services/user.service.ts";
 import {User} from "../../../core/interfaces/user.ts";
 import {UsersTable} from "./components/usersTable.tsx";
 import {Box} from "@mui/material";
-import {AddUserDialog} from "./components/addUserDialog.tsx";
 import {LoaderContext} from "../../../core/providers/loaderProvider.tsx";
+import * as React from "react";
+import Button from "@mui/material/Button";
+import {AddUserDialog} from "./components/addUserDialog.tsx";
 
 export function Users() {
     const {toggleLoading} = useContext(LoaderContext);
@@ -23,7 +25,7 @@ export function Users() {
         <>
             <Box sx={{textAlign: "end"}}>
                 <Box sx={{m: '15px 0'}}>
-                    <AddUserDialog addNewUser={addNewUser}/>
+                    <AddUserDialogButton addNewUser={addNewUser}/>
                 </Box>
                 <UsersTable users={users}/>
             </Box>
@@ -31,3 +33,30 @@ export function Users() {
     )
 }
 
+
+
+function AddUserDialogButton({addNewUser}: { addNewUser: (data: User) => void }) {
+    const [open, setOpen] = React.useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = (data?: User) => {
+        setOpen(false);
+        if (data)
+            addNewUser(data);
+    };
+
+    return (
+        <>
+            <Button variant="outlined" onClick={handleClickOpen}>
+                Add User
+            </Button>
+            <AddUserDialog
+                open={open}
+                onClose={handleClose}
+            />
+        </>
+    );
+}

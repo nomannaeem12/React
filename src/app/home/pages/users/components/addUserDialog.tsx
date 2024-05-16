@@ -27,7 +27,7 @@ interface FormValues {
     password: string;
 }
 
-function Content(props: AddUserDialogContentProps) {
+export function AddUserDialog(props: AddUserDialogContentProps) {
     const {onClose, open} = props;
     const [isLoading, setIsLoading] = useState(false);
     const [snackbarState, setSnackbarState] = useState({
@@ -195,31 +195,6 @@ function Content(props: AddUserDialogContentProps) {
     );
 }
 
-export function AddUserDialog({addNewUser}: { addNewUser: (data: User) => void }) {
-    const [open, setOpen] = React.useState(false);
-
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = (data?: User) => {
-        setOpen(false);
-        if (data)
-            addNewUser(data);
-    };
-
-    return (
-        <>
-            <Button variant="outlined" onClick={handleClickOpen}>
-                Add User
-            </Button>
-            <Content
-                open={open}
-                onClose={handleClose}
-            />
-        </>
-    );
-}
 
 const scopes: { title: string, directories: string[] }[] = [
     {
