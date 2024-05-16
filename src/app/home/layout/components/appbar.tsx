@@ -186,7 +186,6 @@ export default function Appbar() {
                             color="inherit"
                             noWrap
                             sx={{flexGrow: 1, cursor: 'pointer'}}
-                            to='/home'
                             onClick={navigateToHome}
                         >
                             Valued Freight Service
