@@ -76,7 +76,12 @@ export function AddUserDialog(props: AddUserDialogContentProps) {
     return (
         <>
             <Dialog open={open}>
-                <DialogTitle sx={{padding: '10px 24px 0px 24px',display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                <DialogTitle sx={{
+                    padding: '10px 24px 0px 24px',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center'
+                }}>
                     ADD USER
                     <IconButton aria-label="delete" size="small" onClick={handleClose}>
                         <CloseIcon/>
@@ -142,7 +147,6 @@ export function AddUserDialog(props: AddUserDialogContentProps) {
                                     <TextField
                                         fullWidth
                                         margin="normal"
-                                        required
                                         size="small"
                                         label="Role"
                                         name="role"
