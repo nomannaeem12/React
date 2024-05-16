@@ -4,9 +4,8 @@ import {User} from "../interfaces/user.ts";
 
 interface UserService {
     getUsers: () => Promise<User[]>;
-    addUser: (user: User) => Promise<User>;
+    addUser: (user: Partial<User>) => Promise<User>;
 }
-
 
 export function setSignedInUser(response: SignInResponse) {
     localStorage.setItem('SignedIn', JSON.stringify(response));
@@ -14,33 +13,34 @@ export function setSignedInUser(response: SignInResponse) {
 
 export const getUsers = async () => {
     const request = createRequest('/users', 'GET');
-    try {
-        const response = await request;
-        if (response.status === 401) {
-            localStorage.removeItem('SignedIn');
-            window.location.href = '/';
-        }
-        return await response.json();
-    } catch (error) {
-        console.error('Error signing in:', error);
-        throw error;
+    const response = await request;
+    const jsonResponse = await response.json();
+    if (!response.ok) {
+        handleAuthenticationError(response);
+        throw new Error(jsonResponse.error);
     }
+    return jsonResponse;
 }
 
 export const addUser = async (body: Partial<User>) => {
     const request = createRequest('/auth/register', 'POST', body);
-    try {
-        const response = await request;
-        if (response.status === 401) {
-            localStorage.removeItem('SignedIn');
-            window.location.href = '/';
-        }
-        return await response.json();
-    } catch (error) {
-        console.error('Error signing in:', error);
-        throw error;
+    const response = await request;
+    const jsonResponse = await response.json();
+    if (!response.ok) {
+        handleAuthenticationError(response);
+        throw new Error(jsonResponse.error);
     }
+    return jsonResponse;
 }
+
+const handleAuthenticationError = (response: Response) => {
+    if (response.status === 401) {
+        localStorage.removeItem('SignedIn');
+        window.location.href = '/';
+        throw new Error('Authentication error');
+    }
+    return response;
+};
 
 const userService: UserService = {
     getUsers,

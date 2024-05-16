@@ -43,23 +43,20 @@ export function AddUserDialog(props: AddUserDialogContentProps) {
     });
 
     const handleAddUser = (values: FormValues) => {
-        const selectedScopes = scopes.find((s) => s.title === values.role)?.directories;
+        const selectedScopes = scopes.find((s) => s.title === values.role)!.directories;
         const payload = {...values, role: handleRole(values.role), scopes: selectedScopes};
         setIsLoading(true);
-        userService.addUser(payload).then((response) => {
-            setIsLoading(false);
-            if (response.id) {
+        userService.addUser(payload)
+            .then((response) => {
                 setSnackbarState({open: true, message: `User Added Successfully`});
                 onClose(response);
-            }
-            if (response.error) {
-                setSnackbarState({open: true, message: `${response.error}`});
-            }
-        })
+            })
+            .catch((error) => setSnackbarState({open: true, message: `${error}`}))
+            .finally(() => setIsLoading(false))
     }
 
     function handleRole(value: string): string {
-        return value === 'Super Admin' ? 'SUPERADMIN' : value.replace(/_/g, '_');
+        return value === 'Super Admin' ? 'SUPERADMIN' : value.replace(/ /g, '_');
     }
 
     const {values, handleChange, handleBlur, handleSubmit, errors, touched} = useFormik({
