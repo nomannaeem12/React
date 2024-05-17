@@ -9,7 +9,7 @@ const ThemeToggle = () => {
     return (
         <>
             <IconButton onClick={toggleTheme}>
-                {theme.palette.mode === 'light' ? <WbSunnyIcon/> : <DarkModeIcon/>}
+                {theme.palette.mode === 'dark' ? <WbSunnyIcon/> : <DarkModeIcon/>}
             </IconButton>
         </>
     );

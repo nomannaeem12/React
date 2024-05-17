@@ -1,4 +1,4 @@
-import {createContext, ReactNode, useState} from 'react';
+import {createContext, ReactNode, useEffect, useState} from 'react';
 import {Theme} from '@mui/material/styles';
 import {darkTheme, lightTheme} from "../../shared/themes.tsx";
 
@@ -20,6 +20,12 @@ export const ThemeProvider = ({children}: { children: ReactNode }) => {
         console.log(currentTheme);
         setCurrentTheme((prevTheme) => (prevTheme.palette.mode === 'light' ? darkTheme : lightTheme));
     };
+
+    useEffect(() => {
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            setCurrentTheme(darkTheme);
+        }
+    }, []);
 
     return (
         <ThemeContext.Provider value={{theme: currentTheme, toggleTheme}}>
