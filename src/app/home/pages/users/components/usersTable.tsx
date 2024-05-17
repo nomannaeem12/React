@@ -1,44 +1,66 @@
-import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
 import {User} from "../../../../core/interfaces/user.ts";
-import moment from 'moment';
-
-function formatDateToShort(value: Date): string {
-    return moment(value).format('h:mm a, M/d/yy');
-}
+import {DataGrid, GridColDef} from "@mui/x-data-grid";
+import Box from "@mui/material/Box";
+import {shortDate} from "../../../../shared/functions.ts";
 
 export function UsersTable({users}: { users: User[] }) {
+    const columns: GridColDef<(typeof rows)[number]>[] = [
+        {field: 'id', headerName: 'ID', width: 90},
+        {
+            field: 'Name',
+            headerName: 'Name',
+            width: 150,
+            editable: true,
+            valueFormatter: (value, row) => `${row.firstName || ''} ${row.lastName || ''}`,
+        },
+        {
+            field: 'email',
+            headerName: 'Email',
+            width: 250,
+            editable: true,
+        },
+        {
+            field: 'createdAt',
+            headerName: 'CreatedAt',
+            width: 160,
+            valueFormatter: (value, row) => `${shortDate(row.createdAt)}`
+        },
+        {
+            field: 'role',
+            headerName: 'Role',
+            width: 250,
+            valueFormatter: (value, row) => `${row.role.replace(/_/g, ' ')}`
+        },
+        {
+            field: 'lastActivity',
+            headerName: 'Last Activity',
+            width: 160,
+            valueFormatter: (value, row) => `${shortDate(row.lastActivity)}`
+        },
+        {
+            field: 'lastLogin',
+            headerName: 'Last Login',
+            width: 160,
+            valueFormatter: (value, row) => `${shortDate(row.lastLogin)}`
+        },
+        {
+            field: 'status',
+            headerName: 'Status',
+            width: 160,
+            valueFormatter: (value, row) => `${row.status}`
+        },
+    ];
+
+    const rows = [...users];
+
+
     return (
-        <>
-            <TableContainer component={Paper} sx={{height: '800px'}}>
-                <Table stickyHeader sx={{width: 'max-content !important'}} aria-label="simple table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell sx={{fontWeight: 'bold'}}>ID #</TableCell>
-                            <TableCell sx={{fontWeight: 'bold'}}>Name</TableCell>
-                            <TableCell sx={{fontWeight: 'bold'}}>Email</TableCell>
-                            <TableCell sx={{fontWeight: 'bold'}}>Created At</TableCell>
-                            <TableCell sx={{fontWeight: 'bold'}}>Role</TableCell>
-                            <TableCell sx={{fontWeight: 'bold'}}>Last Activity</TableCell>
-                            <TableCell sx={{fontWeight: 'bold'}}>Last Login</TableCell>
-                            <TableCell sx={{fontWeight: 'bold'}}>Status</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {users.map((user) => (
-                            <TableRow key={user.id}>
-                                <TableCell>{user.id}</TableCell>
-                                <TableCell>{user.firstName} {user.lastName}</TableCell>
-                                <TableCell>{user.email}</TableCell>
-                                <TableCell>{formatDateToShort(user.createdAt)}</TableCell>
-                                <TableCell>{user.role.replace(/_/g, ' ')}</TableCell>
-                                <TableCell>{formatDateToShort(user.lastActivity)}</TableCell>
-                                <TableCell>{formatDateToShort(user.lastLogin)}</TableCell>
-                                <TableCell>{user.status}</TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-        </>
-    )
+        <Box sx={{height: 800, width: '100%'}}>
+            <DataGrid
+                rows={rows}
+                columns={columns}
+                disableRowSelectionOnClick
+            />
+        </Box>
+    );
 }

@@ -16,7 +16,7 @@ import {Button, Container, ListItemButton, ListItemIcon, ListItemText} from "@mu
 import {Link, Outlet, useNavigate} from "react-router-dom";
 import PersonIcon from '@mui/icons-material/Person';
 import {LoaderContext, LoaderProvider} from "../../../core/providers/loaderProvider.tsx";
-import {CustomLoader} from "../../../shared/customLoader.tsx";
+import {CustomLoader} from "../../../shared/components/customLoader.tsx";
 
 const drawerWidth: number = 240;
 

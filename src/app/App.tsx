@@ -7,7 +7,7 @@ import {SignUp} from "./authentication/pages/signUp.tsx";
 import {AuthGuard} from "./core/guards/authGuard.tsx";
 import {LoginGuard} from "./core/guards/loginGuard.tsx";
 import {Users} from "./home/pages/users/users.tsx";
-import {NotFound} from "./shared/notFound.tsx";
+import {NotFound} from "./shared/pages/notFound.tsx";
 
 function App() {
 

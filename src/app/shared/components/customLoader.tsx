@@ -1,6 +1,6 @@
 import {CircularProgress, DialogContent} from "@mui/material";
 import Dialog from "@mui/material/Dialog";
-import {LoaderContext} from "../core/providers/loaderProvider.tsx";
+import {LoaderContext} from "../../core/providers/loaderProvider.tsx";
 import {useContext} from "react";
 
 export function CustomLoader() {
