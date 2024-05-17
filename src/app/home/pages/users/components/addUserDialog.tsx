@@ -4,9 +4,9 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import {CircularProgress, DialogContent, MenuItem, Snackbar, TextField} from "@mui/material";
 import Box from "@mui/material/Box";
-import {User} from "../../../../core/interfaces/user.ts";
+import {Role_Types, User} from "../../../../core/interfaces/user.ts";
 import Divider from "@mui/material/Divider";
-import {Form, Formik, FormikProps, useFormik} from "formik";
+import {Form, Formik, useFormik} from "formik";
 import * as yup from "yup";
 import userService from "../../../../core/services/user.service.ts";
 import CloseIcon from '@mui/icons-material/Close';
@@ -42,7 +42,7 @@ export function AddUserDialog(props: AddUserDialogContentProps) {
         password: yup.string().required('Password is required'),
     });
 
-    const handleAddUser = (values: FormValues, {resetForm}: FormikProps<FormValues>) => {
+    const handleAddUser = (values: FormValues) => {
         const selectedScopes = scopes.find((s) => s.title === values.role)!.directories;
         const payload = {...values, role: handleRole(values.role), scopes: selectedScopes};
         setIsLoading(true);
@@ -57,10 +57,10 @@ export function AddUserDialog(props: AddUserDialogContentProps) {
     }
 
     function handleRole(value: string): string {
-        return value === 'Super Admin' ? 'SUPERADMIN' : value.replace(/ /g, '_');
+        return value === 'Super Admin' ? Role_Types.SUPERADMIN : value.replace(/ /g, '_');
     }
 
-    const {values, handleChange, handleBlur, handleSubmit, errors, touched} = useFormik({
+    const {values, handleChange, handleBlur, handleSubmit, errors, touched, resetForm} = useFormik({
         initialValues: {firstName: '', lastName: '', role: '', jobTitle: '', email: '', password: ''},
         onSubmit: handleAddUser,
         validationSchema,
