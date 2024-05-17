@@ -6,7 +6,7 @@ import {CircularProgress, DialogContent, MenuItem, Snackbar, TextField} from "@m
 import Box from "@mui/material/Box";
 import {User} from "../../../../core/interfaces/user.ts";
 import Divider from "@mui/material/Divider";
-import {Form, Formik, useFormik} from "formik";
+import {Form, Formik, FormikProps, useFormik} from "formik";
 import * as yup from "yup";
 import userService from "../../../../core/services/user.service.ts";
 import CloseIcon from '@mui/icons-material/Close';
@@ -42,7 +42,7 @@ export function AddUserDialog(props: AddUserDialogContentProps) {
         password: yup.string().required('Password is required'),
     });
 
-    const handleAddUser = (values: FormValues) => {
+    const handleAddUser = (values: FormValues, {resetForm}: FormikProps<FormValues>) => {
         const selectedScopes = scopes.find((s) => s.title === values.role)!.directories;
         const payload = {...values, role: handleRole(values.role), scopes: selectedScopes};
         setIsLoading(true);
@@ -50,6 +50,7 @@ export function AddUserDialog(props: AddUserDialogContentProps) {
             .then((response) => {
                 setSnackbarState({open: true, message: `User Added Successfully`});
                 onClose(response);
+                resetForm();
             })
             .catch((error) => setSnackbarState({open: true, message: `${error}`}))
             .finally(() => setIsLoading(false))
