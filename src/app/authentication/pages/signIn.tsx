@@ -43,7 +43,7 @@ export function SignIn() {
     });
     return (
         <>
-            <Formik initialValues={values} validationSchema={credentialsValidation}>
+            <Formik initialValues={values} validationSchema={credentialsValidation} onSubmit={handleSignIn}>
                 {() => (
                     <Form onSubmit={handleSubmit}>
                         <Container maxWidth="sm" sx={{marginBottom: '1rem', width: '450px'}}>
