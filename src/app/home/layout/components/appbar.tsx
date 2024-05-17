@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {useContext} from 'react';
-import {createTheme, styled, ThemeProvider} from '@mui/material/styles';
+import {styled, ThemeProvider} from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
 import Box from '@mui/material/Box';
@@ -17,6 +17,8 @@ import {Link, Outlet, useNavigate} from "react-router-dom";
 import PersonIcon from '@mui/icons-material/Person';
 import {LoaderContext, LoaderProvider} from "../../../core/providers/loaderProvider.tsx";
 import {CustomLoader} from "../../../shared/components/customLoader.tsx";
+import {ThemeContext} from "../../../core/providers/themeProvider.tsx";
+import ThemeToggle from "../../../shared/components/themeButton.tsx";
 
 const drawerWidth: number = 240;
 
@@ -130,6 +132,7 @@ export const secondaryListItems = (
 
 
 export default function Appbar() {
+    const {theme} = useContext(ThemeContext);
     const navigator = useNavigate();
     const {isLoading} = useContext(LoaderContext);
     const handleLogout = () => {
@@ -140,19 +143,6 @@ export default function Appbar() {
     const toggleDrawer = () => {
         setOpen(!open);
     };
-    const theme = createTheme({
-        palette: {
-            primary: {
-                main: '#000000',
-            },
-            secondary: {
-                main: '#781616',
-            },
-        },
-        typography: {
-            fontFamily: 'sans-serif',
-        },
-    });
 
     function navigateToHome() {
         navigator('/home');
@@ -207,11 +197,28 @@ export default function Appbar() {
                         </IconButton>
                     </Toolbar>
                     <Divider/>
-                    <List component="nav">
-                        {mainListItems}
-                        <Divider sx={{my: 1}}/>
-                        {secondaryListItems}
-                    </List>
+                    <Box sx={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        flexDirection: 'column',
+                        height: '100%'
+                    }}>
+                        <Box>
+                            <List component="nav">
+                                {mainListItems}
+                                <Divider sx={{my: 1}}/>
+                                {secondaryListItems}
+                            </List>
+                        </Box>
+                        <Box>
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    <ThemeToggle/>
+                                </ListItemIcon>
+                                <ListItemText primary="Theme"/>
+                            </ListItemButton>
+                        </Box>
+                    </Box>
                 </Drawer>
                 <Container sx={{mt: '70px', maxWidth: 'none !important', width: 'auto', overflow: 'hidden'}}>
                     <LoaderProvider>

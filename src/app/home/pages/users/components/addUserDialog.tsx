@@ -174,9 +174,9 @@ export function AddUserDialog(props: AddUserDialogContentProps) {
                                     />
                                 </Box>
                                 <Box>
-                                    <Divider sx={{mt: '10px', mb: '10px'}}/>
+                                    <Divider sx={{mt: '15px', mb: '15px'}}/>
                                 </Box>
-                                <Button type={"submit"} variant='outlined' color='error' fullWidth
+                                <Button type={"submit"} variant='outlined' fullWidth
                                         endIcon={isLoading ? <CircularProgress size={20} color="inherit"/> : null}
                                 >
                                     {isLoading ? 'Submitting...' : 'Submit'}

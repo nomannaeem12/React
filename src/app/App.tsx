@@ -8,21 +8,24 @@ import {AuthGuard} from "./core/guards/authGuard.tsx";
 import {LoginGuard} from "./core/guards/loginGuard.tsx";
 import {Users} from "./home/pages/users/users.tsx";
 import {NotFound} from "./shared/pages/notFound.tsx";
+import {ThemeProvider} from "./core/providers/themeProvider.tsx";
 
 function App() {
 
     return (
         <>
-            <Routes>
-                <Route path="" element={<LoginGuard><Authentication/></LoginGuard>}>
-                    <Route index element={<SignIn/>}/>
-                    <Route path="sign-up" element={<SignUp/>}/>
-                </Route>
-                <Route path="home" element={<AuthGuard><Home/></AuthGuard>}>
-                    <Route path="users" element={<Users/>}/>
-                </Route>
-                <Route path="*" element={<NotFound/>}/>
-            </Routes>
+            <ThemeProvider>
+                <Routes>
+                    <Route path="" element={<LoginGuard><Authentication/></LoginGuard>}>
+                        <Route index element={<SignIn/>}/>
+                        <Route path="sign-up" element={<SignUp/>}/>
+                    </Route>
+                    <Route path="home" element={<AuthGuard><Home/></AuthGuard>}>
+                        <Route path="users" element={<Users/>}/>
+                    </Route>
+                    <Route path="*" element={<NotFound/>}/>
+                </Routes>
+            </ThemeProvider>
         </>
     )
 }
