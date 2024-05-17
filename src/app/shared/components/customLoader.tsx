@@ -7,7 +7,8 @@ export function CustomLoader() {
     const {isLoading} = useContext(LoaderContext);
     return (
         <>
-            <Dialog open={isLoading} PaperProps={{style: {backgroundColor: 'transparent', boxShadow: 'none'}}}>
+            <Dialog open={isLoading}
+                    PaperProps={{style: {backgroundColor: 'transparent', boxShadow: 'none', backgroundImage: 'none'}}}>
                 <DialogContent>
                     <CircularProgress size={100}/>
                 </DialogContent>
