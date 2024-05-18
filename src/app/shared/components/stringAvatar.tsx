@@ -27,8 +27,8 @@ function generateAvatar(name: string) {
     };
 }
 
-export default function StringAvatar({name}: { name: string }) {
+export default function StringAvatar({name, size}: { name: string, size: number }) {
     return (
-        <Avatar {...generateAvatar(name)} />
+        <Avatar {...generateAvatar(name)} sx={{height: `${size}px`, width: `${size}px`, fontSize: `${size / 2}px`}}/>
     );
 }

@@ -179,7 +179,7 @@ export default function Appbar() {
                         </Box>
                     </Box>
                 </Drawer>
-                <Container sx={{mt: '70px', maxWidth: 'none !important', width: 'auto', overflow: 'hidden'}}>
+                <Container sx={{mt: '70px', mb: '6px', maxWidth: 'none !important', width: 'auto', overflow: 'hidden'}}>
                     <LoaderProvider>
                         {!isLoading && <Outlet/>}
                         <CustomLoader/>

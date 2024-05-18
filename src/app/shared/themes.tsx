@@ -6,7 +6,7 @@ export const lightTheme = createTheme({
             main: 'rgb(27,4,4)',
         },
         secondary: {
-            main: '#ffffff',
+            main: '#0078D4',
         },
         error: {
             main: '#f44336',
@@ -21,7 +21,7 @@ export const darkTheme = createTheme({
             main: '#ffffff',
         },
         secondary: {
-            main: '#000000',
+            main: '#0078D4',
         },
         error: {
             main: 'rgba(244,67,54,0.64)',
