@@ -11,6 +11,11 @@ export function setSignedInUser(response: SignIn) {
     localStorage.setItem('SignedIn', JSON.stringify(response));
 }
 
+export function getSignedInUser() {
+    const signedIn = localStorage.getItem('SignedIn');
+    return signedIn ? JSON.parse(signedIn).user : null;
+}
+
 export const getUsers = async (): Promise<User[]> => {
     const request = createRequest('/users', 'GET');
     const response = await request;

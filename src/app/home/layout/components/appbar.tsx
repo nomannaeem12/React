@@ -12,13 +12,17 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import {Button, Container, ListItemButton, ListItemIcon, ListItemText} from "@mui/material";
+import {Container, ListItemButton, ListItemIcon, ListItemText} from "@mui/material";
 import {Link, Outlet, useNavigate} from "react-router-dom";
 import PersonIcon from '@mui/icons-material/Person';
 import {LoaderContext, LoaderProvider} from "../../../core/providers/loaderProvider.tsx";
 import {CustomLoader} from "../../../shared/components/customLoader.tsx";
 import {ThemeContext} from "../../../core/providers/themeProvider.tsx";
-import ThemeToggle from "../../../shared/components/themeButton.tsx";
+import LogoutIcon from '@mui/icons-material/Logout';
+import WbSunnyIcon from "@mui/icons-material/WbSunny";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
+import StringAvatar from "../../../shared/components/stringAvatar.tsx";
+import {getSignedInUser} from "../../../core/services/user.service.ts";
 
 const drawerWidth: number = 240;
 
@@ -73,66 +77,14 @@ const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})
 
 export const mainListItems = (
     <React.Fragment>
-        <ListItemButton to='/home/users' component={Link}>
-            <ListItemIcon>
-                <PersonIcon/>
-            </ListItemIcon>
-            <ListItemText primary="Users"/>
-        </ListItemButton>
 
-        {/*<ListItemButton>*/}
-        {/*    <ListItemIcon>*/}
-        {/*        <BlockIcon/>*/}
-        {/*    </ListItemIcon>*/}
-        {/*    <ListItemText primary="Shipment"/>*/}
-        {/*</ListItemButton>*/}
-        {/*<ListItemButton>*/}
-        {/*    <ListItemIcon>*/}
-        {/*        <BlockIcon/>*/}
-        {/*    </ListItemIcon>*/}
-        {/*    <ListItemText primary="Company"/>*/}
-        {/*</ListItemButton>*/}
-        {/*<ListItemButton>*/}
-        {/*    <ListItemIcon>*/}
-        {/*        <BlockIcon/>*/}
-        {/*    </ListItemIcon>*/}
-        {/*    <ListItemText primary="Accounting"/>*/}
-        {/*</ListItemButton>*/}
-        {/*<ListItemButton>*/}
-        {/*    <ListItemIcon>*/}
-        {/*        <BlockIcon/>*/}
-        {/*    </ListItemIcon>*/}
-        {/*    <ListItemText primary="POC"/>*/}
-        {/*</ListItemButton>*/}
+
     </React.Fragment>
 );
-
-export const secondaryListItems = (
-    <React.Fragment>
-        {/*<ListItemButton>*/}
-        {/*    <ListItemIcon>*/}
-        {/*        <BlockIcon/>*/}
-        {/*    </ListItemIcon>*/}
-        {/*    <ListItemText primary="VIN"/>*/}
-        {/*</ListItemButton>*/}
-        {/*<ListItemButton>*/}
-        {/*    <ListItemIcon>*/}
-        {/*        <BlockIcon/>*/}
-        {/*    </ListItemIcon>*/}
-        {/*    <ListItemText primary="Pallets"/>*/}
-        {/*</ListItemButton>*/}
-        {/*<ListItemButton>*/}
-        {/*    <ListItemIcon>*/}
-        {/*        <BlockIcon/>*/}
-        {/*    </ListItemIcon>*/}
-        {/*    <ListItemText primary="Commodities"/>*/}
-        {/*</ListItemButton>*/}
-    </React.Fragment>
-);
-
 
 export default function Appbar() {
-    const {theme} = useContext(ThemeContext);
+    const user = getSignedInUser();
+    const {theme, toggleTheme} = useContext(ThemeContext);
     const navigator = useNavigate();
     const {isLoading} = useContext(LoaderContext);
     const handleLogout = () => {
@@ -180,7 +132,7 @@ export default function Appbar() {
                         >
                             Valued Freight Service
                         </Typography>
-                        <Button onClick={handleLogout} variant="contained" color='error'>Logout</Button>
+                        <StringAvatar name={`${user.firstName} ${user.lastName}`}/>
                     </Toolbar>
                 </AppBar>
                 <Drawer variant="permanent" open={open}>
@@ -205,18 +157,31 @@ export default function Appbar() {
                     }}>
                         <Box>
                             <List component="nav">
-                                {mainListItems}
+                                <ListItemButton to='/home/users' component={Link}>
+                                    <ListItemIcon>
+                                        <PersonIcon/>
+                                    </ListItemIcon>
+                                    <ListItemText primary="Users"/>
+                                </ListItemButton>
                                 <Divider sx={{my: 1}}/>
-                                {secondaryListItems}
                             </List>
                         </Box>
                         <Box>
-                            <ListItemButton>
+                            <Divider sx={{my: 1}}/>
+                            <ListItemButton onClick={toggleTheme}>
                                 <ListItemIcon>
-                                    <ThemeToggle/>
+                                    {theme.palette.mode === 'dark' ? <WbSunnyIcon/> : <DarkModeIcon/>}
                                 </ListItemIcon>
                                 <ListItemText primary="Theme"/>
                             </ListItemButton>
+                            <Divider sx={{my: 1}}/>
+                            <ListItemButton onClick={handleLogout}>
+                                <ListItemIcon>
+                                    <LogoutIcon/>
+                                </ListItemIcon>
+                                <ListItemText primary="Logout"/>
+                            </ListItemButton>
+                            <Divider sx={{my: 1}}/>
                         </Box>
                     </Box>
                 </Drawer>
