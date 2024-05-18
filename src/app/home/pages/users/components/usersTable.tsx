@@ -10,14 +10,12 @@ export function UsersTable({users}: { users: User[] }) {
             field: 'Name',
             headerName: 'Name',
             width: 150,
-            editable: true,
             valueFormatter: (value, row) => `${row.firstName || ''} ${row.lastName || ''}`,
         },
         {
             field: 'email',
             headerName: 'Email',
             width: 250,
-            editable: true,
         },
         {
             field: 'createdAt',
