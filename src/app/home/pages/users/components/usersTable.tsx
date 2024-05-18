@@ -12,7 +12,7 @@ export function UsersTable({users}: { users: User[] }) {
             headerName: 'ID',
             width: 90,
             renderCell: params => (
-                <div style={{cursor: 'pointer'}} onClick={() => navigateToUserProfile(params.value)}>
+                <div style={{cursor: 'pointer', color: '#0078D4'}} onClick={() => navigateToUserProfile(params.value)}>
                     {params.value}
                 </div>
             ),
