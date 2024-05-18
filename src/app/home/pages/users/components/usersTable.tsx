@@ -2,10 +2,21 @@ import {User} from "../../../../core/interfaces/user.ts";
 import {DataGrid, GridColDef} from "@mui/x-data-grid";
 import Box from "@mui/material/Box";
 import {shortDate} from "../../../../shared/functions.ts";
+import {navigationService} from "../../../../core/services/navigation.service.ts";
 
 export function UsersTable({users}: { users: User[] }) {
+    const {navigateToUserProfile} = navigationService();
     const columns: GridColDef<(typeof rows)[number]>[] = [
-        {field: 'id', headerName: 'ID', width: 90},
+        {
+            field: 'id',
+            headerName: 'ID',
+            width: 90,
+            renderCell: params => (
+                <div style={{cursor: 'pointer'}} onClick={() => navigateToUserProfile(params.value)}>
+                    {params.value}
+                </div>
+            ),
+        },
         {
             field: 'Name',
             headerName: 'Name',
@@ -48,9 +59,7 @@ export function UsersTable({users}: { users: User[] }) {
             valueFormatter: (value, row) => `${row.status}`
         },
     ];
-
     const rows = [...users];
-
 
     return (
         <Box sx={{height: 800, width: '100%'}}>

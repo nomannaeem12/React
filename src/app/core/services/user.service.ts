@@ -27,7 +27,7 @@ export const getUsers = async (): Promise<User[]> => {
     return await response.json();
 }
 
-export const getUserById = async (id: string): Promise<User | null> => {
+export const getUserById = async (id: number): Promise<User> => {
     const request = createRequest(`/users/${id}`, 'GET');
     const response = await request;
     if (!response.ok) {

@@ -9,7 +9,7 @@ export function navigationService() {
     }
 
     const navigateToUserProfile = (userId: number) => {
-        navigate(`/home/user/${userId}`);
+        navigate(`/home/users/${userId}`);
     }
 
     return {navigateToHome, navigateToUserProfile};

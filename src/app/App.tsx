@@ -22,8 +22,10 @@ function App() {
                         <Route path="sign-up" element={<SignUp/>}/>
                     </Route>
                     <Route path="home" element={<AuthGuard><Home/></AuthGuard>}>
-                        <Route path="users" element={<Users/>}/>
-                        <Route path="user/:id" element={<UserProfile/>}/>
+                        <Route path="users">
+                            <Route index element={<Users/>}/>
+                            <Route path=":id" element={<UserProfile/>}/>
+                        </Route>
                     </Route>
                     <Route path="*" element={<NotFound/>}/>
                 </Routes>
