@@ -23,6 +23,7 @@ import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import StringAvatar from "../../../shared/components/stringAvatar.tsx";
 import {getSignedInUser} from "../../../core/services/user.service.ts";
+import {navigationService} from "../../../core/services/navigation.service.ts";
 
 const drawerWidth: number = 240;
 
@@ -74,17 +75,10 @@ const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})
     }),
 );
 
-
-export const mainListItems = (
-    <React.Fragment>
-
-
-    </React.Fragment>
-);
-
 export default function Appbar() {
     const user = getSignedInUser();
     const {theme, toggleTheme} = useContext(ThemeContext);
+    const {navigateToHome, navigateToUserProfile} = navigationService();
     const navigator = useNavigate();
     const {isLoading} = useContext(LoaderContext);
     const handleLogout = () => {
@@ -95,10 +89,6 @@ export default function Appbar() {
     const toggleDrawer = () => {
         setOpen(!open);
     };
-
-    function navigateToHome() {
-        navigator('/home');
-    }
 
     return (
         <ThemeProvider theme={theme}>
@@ -132,7 +122,11 @@ export default function Appbar() {
                         >
                             Valued Freight Service
                         </Typography>
-                        <StringAvatar name={`${user.firstName} ${user.lastName}`}/>
+                        <IconButton onClick={() => {
+                            navigateToUserProfile(user.id)
+                        }}>
+                            <StringAvatar name={`${user.firstName} ${user.lastName}`}/>
+                        </IconButton>
                     </Toolbar>
                 </AppBar>
                 <Drawer variant="permanent" open={open}>

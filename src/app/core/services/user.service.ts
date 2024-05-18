@@ -5,6 +5,7 @@ import {User} from "../interfaces/user.ts";
 interface UserService {
     getUsers: () => Promise<User[]>;
     addUser: (user: Partial<User>) => Promise<User>;
+    getUserById: (id: number) => Promise<User>;
 }
 
 export function setSignedInUser(response: SignIn) {
@@ -22,6 +23,15 @@ export const getUsers = async (): Promise<User[]> => {
     if (!response.ok) {
         handleAuthenticationError(response);
         throw new Error((await response.json()).error);
+    }
+    return await response.json();
+}
+
+export const getUserById = async (id: string): Promise<User | null> => {
+    const request = createRequest(`/users/${id}`, 'GET');
+    const response = await request;
+    if (!response.ok) {
+        handleAuthenticationError(response);
     }
     return await response.json();
 }
@@ -47,7 +57,8 @@ const handleAuthenticationError = (response: Response) => {
 
 const userService: UserService = {
     getUsers,
-    addUser
+    addUser,
+    getUserById
 }
 
 export default userService;

@@ -9,6 +9,7 @@ import {LoginGuard} from "./core/guards/loginGuard.tsx";
 import {Users} from "./home/pages/users/users.tsx";
 import {NotFound} from "./shared/pages/notFound.tsx";
 import {ThemeProvider} from "./core/providers/themeProvider.tsx";
+import {UserProfile} from "./home/pages/users/user-profile.tsx";
 
 function App() {
 
@@ -22,6 +23,7 @@ function App() {
                     </Route>
                     <Route path="home" element={<AuthGuard><Home/></AuthGuard>}>
                         <Route path="users" element={<Users/>}/>
+                        <Route path="user/:id" element={<UserProfile/>}/>
                     </Route>
                     <Route path="*" element={<NotFound/>}/>
                 </Routes>
