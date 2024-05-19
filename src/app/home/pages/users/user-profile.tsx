@@ -34,7 +34,7 @@ export function UserProfile() {
                 <Box sx={{height: '100%', width: '100%'}}>
                     <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                         <Box sx={{display: 'flex'}}>
-                            <StringAvatar name={`${user.firstName} ${user.lastName}`} size={50}/>
+                            <StringAvatar name={`${user.firstName.trim()} ${user.lastName.trim()}`} size={50}/>
                             <Box sx={{ml: 2}}>
                                 <Box sx={{fontSize: '20px', fontWeight: 'bold'}}>{user.firstName} {user.lastName}</Box>
                                 <Box sx={{lineHeight: '0.6'}}>{user.email}</Box>

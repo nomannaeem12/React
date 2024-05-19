@@ -125,7 +125,7 @@ export default function Appbar() {
                         <IconButton onClick={() => {
                             navigateToUserProfile(user.id)
                         }}>
-                            <StringAvatar name={`${user.firstName} ${user.lastName}`}/>
+                            <StringAvatar name={`${user.firstName.trim()} ${user.lastName.trim()}`} size={40}/>
                         </IconButton>
                     </Toolbar>
                 </AppBar>
