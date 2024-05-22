@@ -5,7 +5,6 @@ import {User} from "../../../core/interfaces/user.ts";
 import {LoaderContext} from "../../../core/providers/loaderProvider.tsx";
 import Box from "@mui/material/Box";
 import StringAvatar from "../../../shared/components/stringAvatar.tsx";
-import {ThemeContext} from "../../../core/providers/themeProvider.tsx";
 import {Card} from "@mui/material";
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
@@ -13,7 +12,6 @@ import IconButton from "@mui/material/IconButton";
 
 export function UserProfile() {
     const {id} = useParams();
-    const {theme} = useContext(ThemeContext);
     const {toggleLoading} = useContext(LoaderContext);
     const [user, setUser] = useState<User | null>(null);
     useEffect(() => {

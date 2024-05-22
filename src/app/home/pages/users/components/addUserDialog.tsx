@@ -4,7 +4,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import {CircularProgress, DialogContent, MenuItem, Snackbar, TextField} from "@mui/material";
 import Box from "@mui/material/Box";
-import {Role_Types, User} from "../../../../core/interfaces/user.ts";
+import {User} from "../../../../core/interfaces/user.ts";
 import Divider from "@mui/material/Divider";
 import {Form, Formik, useFormik} from "formik";
 import * as yup from "yup";
@@ -21,8 +21,6 @@ interface FormValues {
     firstName: string;
     lastName: string;
     email: string;
-    jobTitle: string;
-    role: string;
     password: string;
 }
 
@@ -36,14 +34,11 @@ export function AddUserDialog(props: AddUserDialogContentProps) {
     const validationSchema = yup.object({
         firstName: yup.string().required('FirstName is required'),
         lastName: yup.string().required('lastName is required'),
-        role: yup.string().required('Role is required'),
-        jobTitle: yup.string().required('JobTitle is required'),
         email: yup.string().email('Invalid email format').required('Email is required'),
         password: yup.string().required('Password is required'),
     });
 
     const handleAddUser = (values: FormValues) => {
-        const selectedScopes = scopes.find((s) => s.title === values.role)!.directories;
         const payload = {...values, role: handleRole(values.role), scopes: selectedScopes};
         setIsLoading(true);
         userService.addUser(payload)

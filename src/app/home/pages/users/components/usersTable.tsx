@@ -34,30 +34,6 @@ export function UsersTable({users}: { users: User[] }) {
             width: 160,
             valueFormatter: (value, row) => `${shortDate(row.createdAt)}`
         },
-        {
-            field: 'role',
-            headerName: 'Role',
-            width: 250,
-            valueFormatter: (value, row) => `${row.role.replace(/_/g, ' ')}`
-        },
-        {
-            field: 'lastActivity',
-            headerName: 'Last Activity',
-            width: 160,
-            valueFormatter: (value, row) => `${shortDate(row.lastActivity)}`
-        },
-        {
-            field: 'lastLogin',
-            headerName: 'Last Login',
-            width: 160,
-            valueFormatter: (value, row) => `${shortDate(row.lastLogin)}`
-        },
-        {
-            field: 'status',
-            headerName: 'Status',
-            width: 160,
-            valueFormatter: (value, row) => `${row.status}`
-        },
     ];
     const rows = [...users];
 

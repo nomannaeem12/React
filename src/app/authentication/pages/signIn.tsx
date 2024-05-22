@@ -1,10 +1,10 @@
-import {Button, CircularProgress, Container, Link, Snackbar, TextField} from "@mui/material";
+import {Button, CircularProgress, Container, Snackbar, TextField} from "@mui/material";
 import {Form, Formik, useFormik} from "formik";
 import {SignInDTO} from "../../core/interfaces/authentication.interface.ts";
 import {useState} from "react";
 import * as yup from 'yup';
 import {setSignedInUser} from "../../core/services/user.service.ts";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import authenticationService from "../../core/services/auth.service.ts";
@@ -88,8 +88,8 @@ export function SignIn() {
                             alignItems: 'end',
                             marginBottom: '2rem'
                         }}>
-                            <Link href="#" underline="always" tabIndex={1}>
-                                Forgot password?
+                            <Link to='/sign-up' underline="always" tabIndex={1}>
+                                Create Account?
                             </Link>
                             <Button type='submit' variant="contained" color='error'
                                     endIcon={isLoading ? <CircularProgress size={20} color="inherit"/> : null}

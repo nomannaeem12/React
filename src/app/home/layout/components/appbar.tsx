@@ -120,7 +120,7 @@ export default function Appbar() {
                             sx={{flexGrow: 1, cursor: 'pointer'}}
                             onClick={navigateToHome}
                         >
-                            Valued Freight Service
+                            SOCIAL NET @
                         </Typography>
                         <IconButton onClick={() => {
                             navigateToUserProfile(user.id)
