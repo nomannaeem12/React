@@ -18,18 +18,11 @@ function stringToColor(string: string) {
     return color;
 }
 
-function generateAvatar(name: string) {
-    return {
-        sx: {
-            bgcolor: stringToColor(name),
-        },
-        children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
-    };
-}
-
 export default function StringAvatar({name, size}: { name: string, size: number }) {
     name = name.toUpperCase();
     return (
-        <Avatar {...generateAvatar(name)} sx={{height: `${size}px`, width: `${size}px`, fontSize: `${size / 2}px`}}/>
+        <Avatar sx={{height: `${size}px`, width: `${size}px`, fontSize: `${size / 2}px` , background: stringToColor(name)}}>
+            {`${name.split(' ')[0][0]}${name.split(' ')[1][0]}`}
+        </Avatar>
     );
 }

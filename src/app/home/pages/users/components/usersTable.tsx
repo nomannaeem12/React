@@ -3,25 +3,23 @@ import {DataGrid, GridColDef} from "@mui/x-data-grid";
 import Box from "@mui/material/Box";
 import {shortDate} from "../../../../shared/functions.ts";
 import {navigationService} from "../../../../core/services/navigation.service.ts";
+import StringAvatar from "../../../../shared/components/stringAvatar.tsx";
 
 export function UsersTable({users}: { users: User[] }) {
     const {navigateToUserProfile} = navigationService();
     const columns: GridColDef<(typeof rows)[number]>[] = [
         {
-            field: 'id',
-            headerName: 'ID',
-            width: 90,
+            field: 'name',
+            headerName: 'Name',
+            width: 200,
             renderCell: params => (
-                <div style={{cursor: 'pointer', color: '#0078D4'}} onClick={() => navigateToUserProfile(params.value)}>
-                    {params.value}
+                <div style={{cursor: 'pointer',display: 'flex',alignItems:'center'}} onClick={() => navigateToUserProfile(params.value)}>
+                    <StringAvatar name={`${params.row.firstName.trim()} ${params.row.lastName.trim()}`} size={30}/>
+                    <Box sx={{ml: 2}}>
+                        {params.row.firstName || ''} {params.row.lastName || ''}
+                    </Box>
                 </div>
             ),
-        },
-        {
-            field: 'Name',
-            headerName: 'Name',
-            width: 150,
-            valueFormatter: (value, row) => `${row.firstName || ''} ${row.lastName || ''}`,
         },
         {
             field: 'email',
