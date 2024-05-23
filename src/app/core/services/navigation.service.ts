@@ -12,5 +12,9 @@ export function navigationService() {
         navigate(`/home/users/${userId}`);
     }
 
-    return {navigateToHome, navigateToUserProfile};
+    const navigateToUserMessagePage = (userId: number) => {
+        navigate(`/home/users/${userId}`);
+    }
+
+    return {navigateToHome, navigateToUserProfile , navigateToUserMessagePage};
 }

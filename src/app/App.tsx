@@ -10,6 +10,8 @@ import {Users} from "./home/pages/users/users.tsx";
 import {NotFound} from "./shared/pages/notFound.tsx";
 import {ThemeProvider} from "./core/providers/themeProvider.tsx";
 import {UserProfile} from "./home/pages/users/user-profile.tsx";
+import {Inbox} from "./home/pages/messages/inbox.tsx";
+import {Messages} from "./home/pages/messages/messages.tsx";
 
 function App() {
 
@@ -26,8 +28,12 @@ function App() {
                             <Route index element={<Users/>}/>
                             <Route path=":id" element={<UserProfile/>}/>
                         </Route>
+                        <Route path="messages">
+                            <Route index element={<Messages/>}/>
+                            <Route element={<Inbox/>}/>
+                        </Route>
                     </Route>
-                    <Route path="*" element={<NotFound/>}/>
+                        <Route path="*" element={<NotFound/>}/>
                 </Routes>
             </ThemeProvider>
         </>

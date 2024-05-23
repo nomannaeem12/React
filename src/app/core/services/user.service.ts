@@ -1,10 +1,13 @@
 import {SignIn} from "../interfaces/authentication.interface.ts";
 import {createRequest} from "./request.service.ts";
 import {User} from "../interfaces/user.ts";
+import {UsersFilterDto} from "../../home/pages/messages/components/recipientSelectionDialog.tsx";
 
 interface UserService {
     getUsers: () => Promise<User[]>;
+    getUserMessages: (id: number) => Promise<User>;
     addUser: (user: Partial<User>) => Promise<User>;
+    filter: (searchText: UsersFilterDto) => Promise<User[]>;
     getUserById: (id: number) => Promise<User>;
 }
 
@@ -19,6 +22,16 @@ export function getSignedInUser() {
 
 export const getUsers = async (): Promise<User[]> => {
     const request = createRequest('/users', 'GET');
+    const response = await request;
+    if (!response.ok) {
+        handleAuthenticationError(response);
+        throw new Error((await response.json()).error);
+    }
+    return await response.json();
+}
+
+export const getUserMessages = async (id:number): Promise<User> => {
+    const request = createRequest(`/users/${id}/messages`, 'GET');
     const response = await request;
     if (!response.ok) {
         handleAuthenticationError(response);
@@ -46,6 +59,16 @@ export const addUser = async (body: Partial<User>): Promise<User> => {
     return await response.json();
 }
 
+export const filter = async (body:UsersFilterDto): Promise<User[]> => {
+    const request = createRequest('/users/filter', 'POST', body);
+    const response = await request;
+    if (!response.ok) {
+        handleAuthenticationError(response);
+        throw new Error((await response.json()).error);
+    }
+    return await response.json();
+}
+
 const handleAuthenticationError = (response: Response) => {
     if (response.status === 401) {
         localStorage.removeItem('SignedIn');
@@ -57,7 +80,9 @@ const handleAuthenticationError = (response: Response) => {
 
 const userService: UserService = {
     getUsers,
+    getUserMessages,
     addUser,
+    filter,
     getUserById
 }
 

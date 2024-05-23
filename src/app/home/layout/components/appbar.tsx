@@ -9,7 +9,6 @@ import Box from '@mui/material/Box';
 import MuiAppBar, {AppBarProps as MuiAppBarProps} from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -81,7 +80,7 @@ export default function Appbar() {
     const user = getSignedInUser();
     const {theme, toggleTheme} = useContext(ThemeContext);
     const logo = theme.palette.mode === 'dark' ? darkLogo : lightLogo;
-    const {navigateToHome, navigateToUserProfile} = navigationService();
+    const {navigateToHome, navigateToUserProfile ,navigateToUserMessagePage} = navigationService();
     const navigator = useNavigate();
     const {isLoading} = useContext(LoaderContext);
     const handleLogout = () => {
@@ -116,9 +115,7 @@ export default function Appbar() {
                             <MenuIcon/>
                         </IconButton>
                        <Box sx={{width: '100%', display: 'flex',alignItems:'center',justifyContent: 'space-between'}}>
-                           <Box onClick={navigateToHome}>
-                               <img src={logo} alt="logo" height="50px"/>
-                           </Box>
+                               <img src={logo} alt="logo" height="50px" onClick={navigateToHome}/>
                            <IconButton onClick={() => {
                                navigateToUserProfile(user.id)
                            }}>
@@ -160,7 +157,7 @@ export default function Appbar() {
                         </Box>
                         <Box>
                             <Divider sx={{my: 1}}/>
-                            <ListItemButton>
+                            <ListItemButton to='/home/messages' component={Link}>
                                 <ListItemIcon>
                                     <ChatIcon/>
                                 </ListItemIcon>
