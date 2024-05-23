@@ -1,4 +1,6 @@
 import * as React from 'react';
+import darkLogo from '../../../../assets/social_net_dark.png';
+import lightLogo from '../../../../assets/social_net_light.png';
 import {useContext} from 'react';
 import {styled, ThemeProvider} from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -24,9 +26,9 @@ import DarkModeIcon from "@mui/icons-material/DarkMode";
 import StringAvatar from "../../../shared/components/stringAvatar.tsx";
 import {getSignedInUser} from "../../../core/services/user.service.ts";
 import {navigationService} from "../../../core/services/navigation.service.ts";
+import ChatIcon from '@mui/icons-material/Chat';
 
 const drawerWidth: number = 240;
-
 interface AppBarProps extends MuiAppBarProps {
     open?: boolean;
 }
@@ -78,6 +80,7 @@ const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})
 export default function Appbar() {
     const user = getSignedInUser();
     const {theme, toggleTheme} = useContext(ThemeContext);
+    const logo = theme.palette.mode === 'dark' ? darkLogo : lightLogo;
     const {navigateToHome, navigateToUserProfile} = navigationService();
     const navigator = useNavigate();
     const {isLoading} = useContext(LoaderContext);
@@ -112,21 +115,16 @@ export default function Appbar() {
                         >
                             <MenuIcon/>
                         </IconButton>
-                        <Typography
-                            component="h1"
-                            variant="h6"
-                            color="inherit"
-                            noWrap
-                            sx={{flexGrow: 1, cursor: 'pointer'}}
-                            onClick={navigateToHome}
-                        >
-                            SOCIAL NET @
-                        </Typography>
-                        <IconButton onClick={() => {
-                            navigateToUserProfile(user.id)
-                        }}>
-                            <StringAvatar name={`${user.firstName.trim()} ${user.lastName.trim()}`} size={40}/>
-                        </IconButton>
+                       <Box sx={{width: '100%', display: 'flex',alignItems:'center',justifyContent: 'space-between'}}>
+                           <Box onClick={navigateToHome}>
+                               <img src={logo} alt="logo" height="50px"/>
+                           </Box>
+                           <IconButton onClick={() => {
+                               navigateToUserProfile(user.id)
+                           }}>
+                               <StringAvatar name={`${user.firstName.trim()} ${user.lastName.trim()}`} size={40}/>
+                           </IconButton>
+                       </Box>
                     </Toolbar>
                 </AppBar>
                 <Drawer variant="permanent" open={open}>
@@ -161,6 +159,13 @@ export default function Appbar() {
                             </List>
                         </Box>
                         <Box>
+                            <Divider sx={{my: 1}}/>
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    <ChatIcon/>
+                                </ListItemIcon>
+                                <ListItemText primary="Chat"/>
+                            </ListItemButton>
                             <Divider sx={{my: 1}}/>
                             <ListItemButton onClick={toggleTheme}>
                                 <ListItemIcon>
