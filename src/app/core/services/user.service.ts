@@ -32,8 +32,8 @@ export const getUsers = async (): Promise<User[]> => {
     return await response.json();
 }
 
-export const getUserMessages = async (id: number): Promise<User> => {
-    const request = createRequest(`/users/${id}/get-messages`, 'GET');
+export const getUserMessages = async (recipientId: number): Promise<User> => {
+    const request = createRequest(`/users/${recipientId}/get-messages`, 'GET');
     const response = await request;
     if (!response.ok) {
         handleAuthenticationError(response);

@@ -3,7 +3,7 @@ import {Card, CardActions, CardContent, CardHeader, TextField} from "@mui/materi
 import IconButton from "@mui/material/IconButton";
 import React, {useContext, useEffect, useState} from "react";
 import {LoaderContext} from "../../../core/providers/loaderProvider.tsx";
-import {User} from "../../../core/interfaces/user.ts";
+import {User, UserMessage} from "../../../core/interfaces/user.ts";
 import userService from "../../../core/services/user.service.ts";
 import StringAvatar from "../../../shared/components/stringAvatar.tsx";
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
@@ -18,15 +18,20 @@ export function Chatterbox() {
     const {toggleLoading} = useContext(LoaderContext);
     const [recipient, setRecipient] = useState<User | null>(null);
     const [text, setText] = useState<string>('');
+    const [userMessages, setUserMessages] = useState<UserMessage[]>([]);
 
     useEffect(() => {
-        console.log(recipientId)
         toggleLoading(true);
         userService.getUserById(+recipientId!)
             .then((response) => {
                 setRecipient(response);
                 toggleLoading(false);
             })
+        userService.getUserMessages(+recipientId!).then((response) => {
+            const messages = [...response.inbox, ...response.outbox];
+            messages.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+            setUserMessages(messages);
+        })
     }, [recipientId]);
 
     function handleSubmit() {
@@ -56,7 +61,7 @@ export function Chatterbox() {
                     subheader="Active 7h ago"
                 />
                 <Divider/>
-                <CardContent sx={{height: '80%'}}>
+                <CardContent sx={{height: '80%', overflow: 'auto'}}>
                     <Box>
                         <Box sx={{
                             display: 'flex',
@@ -78,7 +83,30 @@ export function Chatterbox() {
                                 View Profile
                             </Button>
                         </Box>
+                    </Box>
+                    <Box>
+                        {
+                            userMessages && userMessages.map((userMessage) => (
+                                <Box
+                                    sx={{
+                                        mb: '3px',
+                                        display: 'flex',
+                                        justifyContent: userMessage.receiverId !== recipient.id ? 'start' : 'end'
+                                    }}
+                                    key={userMessage.id}
+                                >
 
+                                    <Box sx={{
+                                        backgroundColor: userMessage.receiverId !== recipient.id ? 'black' : '#3797f0',
+                                        padding: '5px 10px',
+                                        borderRadius: '40px'
+                                    }}>
+                                        {userMessage.message.text}
+                                    </Box>
+
+                                </Box>
+                            ))
+                        }
                     </Box>
                 </CardContent>
                 <CardActions sx={{height: '10%'}}>
