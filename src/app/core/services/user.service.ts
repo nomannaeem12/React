@@ -1,7 +1,8 @@
 import {SignIn} from "../interfaces/authentication.interface.ts";
 import {createRequest} from "./request.service.ts";
-import {User} from "../interfaces/user.ts";
+import {User, UserMessage} from "../interfaces/user.ts";
 import {UsersFilterDto} from "../../home/pages/messages/components/recipientSelectionDialog.tsx";
+import {CreateUserMessageDto} from "../../home/pages/messages/chatterbox.tsx";
 
 interface UserService {
     getUsers: () => Promise<User[]>;
@@ -9,6 +10,7 @@ interface UserService {
     addUser: (user: Partial<User>) => Promise<User>;
     filter: (searchText: UsersFilterDto) => Promise<User[]>;
     getUserById: (id: number) => Promise<User>;
+    sendMessage: (body: CreateUserMessageDto) => Promise<UserMessage>;
 }
 
 export function setSignedInUser(response: SignIn) {
@@ -30,8 +32,8 @@ export const getUsers = async (): Promise<User[]> => {
     return await response.json();
 }
 
-export const getUserMessages = async (id:number): Promise<User> => {
-    const request = createRequest(`/users/${id}/messages`, 'GET');
+export const getUserMessages = async (id: number): Promise<User> => {
+    const request = createRequest(`/users/${id}/get-messages`, 'GET');
     const response = await request;
     if (!response.ok) {
         handleAuthenticationError(response);
@@ -59,7 +61,17 @@ export const addUser = async (body: Partial<User>): Promise<User> => {
     return await response.json();
 }
 
-export const filter = async (body:UsersFilterDto): Promise<User[]> => {
+export const sendMessage = async (body: CreateUserMessageDto): Promise<UserMessage> => {
+    const request = createRequest('/user-message', 'POST', body);
+    const response = await request;
+    if (!response.ok) {
+        handleAuthenticationError(response);
+        throw new Error((await response.json()).error);
+    }
+    return await response.json();
+}
+
+export const filter = async (body: UsersFilterDto): Promise<User[]> => {
     const request = createRequest('/users/filter', 'POST', body);
     const response = await request;
     if (!response.ok) {
@@ -83,7 +95,8 @@ const userService: UserService = {
     getUserMessages,
     addUser,
     filter,
-    getUserById
+    getUserById,
+    sendMessage
 }
 
 export default userService;

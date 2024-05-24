@@ -5,15 +5,18 @@ import Button from "@mui/material/Button";
 import {RecipientSelectionDialog} from "./components/recipientSelectionDialog.tsx";
 import {useState} from "react";
 import {User} from "../../../core/interfaces/user.ts";
+import {navigationService} from "../../../core/services/navigation.service.ts";
 
-export function Messages(){
-
-    const selectedRecipient = (data:User) => {}
+export function Messages() {
+    const {navigateToChatterbox} = navigationService();
+    const selectedRecipient = (data: User) => {
+        navigateToChatterbox(data.id);
+    }
 
     return (
         <>
-            <Box sx={{display:'flex', alignItems: 'center',height:'100%'}}>
-                <Box sx={{display: 'flex', flexDirection: 'column' , alignItems: 'center'}}>
+            <Box sx={{display: 'flex', alignItems: 'center', height: '100%'}}>
+                <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                     <Box>
                         <ChatIcon sx={{height: '50px', width: 'auto'}}/>
                     </Box>
@@ -42,7 +45,7 @@ function RecipientSelectionDialogButton({selectedRecipient}: { selectedRecipient
     const handleClose = (data?: User) => {
         setOpen(false);
         if (data)
-        selectedRecipient(data)
+            selectedRecipient(data)
     };
 
     return (

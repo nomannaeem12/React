@@ -1,9 +1,6 @@
 import {environment} from "../../envirnment.ts";
-import {SignInDTO} from "../interfaces/authentication.interface.ts";
-import {User} from "../interfaces/user.ts";
-import {UsersFilterDto} from "../../home/pages/messages/components/recipientSelectionDialog.tsx";
 
-export const createRequest = async (url: string, method: string, body?: SignInDTO | Partial<User> | UsersFilterDto) => {
+export const createRequest = async <T>(url: string, method: string, body?: T) => {
     const URL = `${environment.baseurl}${url}`;
     const headers: { [key: string]: string } = {
         'Content-Type': 'application/json',

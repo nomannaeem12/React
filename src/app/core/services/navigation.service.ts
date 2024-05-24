@@ -13,8 +13,17 @@ export function navigationService() {
     }
 
     const navigateToUserMessagePage = (userId: number) => {
-        navigate(`/home/users/${userId}`);
+        navigate(`/home/messages`);
     }
 
-    return {navigateToHome, navigateToUserProfile , navigateToUserMessagePage};
+    const navigateToChatterbox = (recipientId: number) => {
+        navigate(`/home/messages/chatterbox/${recipientId}`);
+    }
+
+    return {
+        navigateToHome,
+        navigateToUserProfile,
+        navigateToUserMessagePage,
+        navigateToChatterbox
+    };
 }

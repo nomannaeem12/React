@@ -1,7 +1,7 @@
 import * as React from 'react';
+import {useContext} from 'react';
 import darkLogo from '../../../../assets/social_net_dark.png';
 import lightLogo from '../../../../assets/social_net_light.png';
-import {useContext} from 'react';
 import {styled, ThemeProvider} from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
@@ -28,6 +28,7 @@ import {navigationService} from "../../../core/services/navigation.service.ts";
 import ChatIcon from '@mui/icons-material/Chat';
 
 const drawerWidth: number = 240;
+
 interface AppBarProps extends MuiAppBarProps {
     open?: boolean;
 }
@@ -80,7 +81,7 @@ export default function Appbar() {
     const user = getSignedInUser();
     const {theme, toggleTheme} = useContext(ThemeContext);
     const logo = theme.palette.mode === 'dark' ? darkLogo : lightLogo;
-    const {navigateToHome, navigateToUserProfile ,navigateToUserMessagePage} = navigationService();
+    const {navigateToHome, navigateToUserProfile} = navigationService();
     const navigator = useNavigate();
     const {isLoading} = useContext(LoaderContext);
     const handleLogout = () => {
@@ -114,14 +115,19 @@ export default function Appbar() {
                         >
                             <MenuIcon/>
                         </IconButton>
-                       <Box sx={{width: '100%', display: 'flex',alignItems:'center',justifyContent: 'space-between'}}>
-                               <img src={logo} alt="logo" height="50px" onClick={navigateToHome}/>
-                           <IconButton onClick={() => {
-                               navigateToUserProfile(user.id)
-                           }}>
-                               <StringAvatar name={`${user.firstName.trim()} ${user.lastName.trim()}`} size={40}/>
-                           </IconButton>
-                       </Box>
+                        <Box sx={{
+                            width: '100%',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between'
+                        }}>
+                            <img src={logo} alt="logo" height="50px" onClick={navigateToHome}/>
+                            <IconButton onClick={() => {
+                                navigateToUserProfile(user.id)
+                            }}>
+                                <StringAvatar name={`${user.firstName.trim()} ${user.lastName.trim()}`} size={40}/>
+                            </IconButton>
+                        </Box>
                     </Toolbar>
                 </AppBar>
                 <Drawer variant="permanent" open={open}>

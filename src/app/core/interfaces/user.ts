@@ -21,5 +21,5 @@ export interface UserMessage extends BasicEntity {
 }
 
 export interface Message extends BasicEntity {
-    message: text;
+    text: string;
 }

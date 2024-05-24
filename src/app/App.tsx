@@ -12,6 +12,7 @@ import {ThemeProvider} from "./core/providers/themeProvider.tsx";
 import {UserProfile} from "./home/pages/users/user-profile.tsx";
 import {Inbox} from "./home/pages/messages/inbox.tsx";
 import {Messages} from "./home/pages/messages/messages.tsx";
+import {Chatterbox} from "./home/pages/messages/chatterbox.tsx";
 
 function App() {
 
@@ -30,10 +31,11 @@ function App() {
                         </Route>
                         <Route path="messages">
                             <Route index element={<Messages/>}/>
+                            <Route path="chatterbox/:recipientId" element={<Chatterbox/>}/>
                             <Route element={<Inbox/>}/>
                         </Route>
                     </Route>
-                        <Route path="*" element={<NotFound/>}/>
+                    <Route path="*" element={<NotFound/>}/>
                 </Routes>
             </ThemeProvider>
         </>
