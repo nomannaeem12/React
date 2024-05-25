@@ -6,7 +6,7 @@ import {CreateUserMessageDto} from "../../home/pages/messages/chatterbox.tsx";
 
 interface UserService {
     getUsers: () => Promise<User[]>;
-    getUserMessages: (id: number) => Promise<User>;
+    getUserMessages: (id: number) => Promise<{ inbox: [], outbox: [] }>;
     addUser: (user: Partial<User>) => Promise<User>;
     filter: (searchText: UsersFilterDto) => Promise<User[]>;
     getUserById: (id: number) => Promise<User>;
@@ -32,7 +32,7 @@ export const getUsers = async (): Promise<User[]> => {
     return await response.json();
 }
 
-export const getUserMessages = async (recipientId: number): Promise<User> => {
+export const getUserMessages = async (recipientId: number): Promise<{ inbox: [], outbox: [] }> => {
     const request = createRequest(`/users/${recipientId}/get-messages`, 'GET');
     const response = await request;
     if (!response.ok) {

@@ -6,7 +6,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import IconButton from "@mui/material/IconButton";
 import Divider from "@mui/material/Divider";
 import Button from "@mui/material/Button";
-import userService from "../../../../core/services/user.service.ts";
+import userService, {getSignedInUser} from "../../../../core/services/user.service.ts";
 import Box from "@mui/material/Box";
 import {User} from "../../../../core/interfaces/user.ts";
 import StringAvatar from "../../../../shared/components/stringAvatar.tsx";
@@ -19,15 +19,16 @@ interface ContentProps {
 
 export function RecipientSelectionDialog(props: ContentProps) {
     const {onClose, open} = props;
+    const currentSignedInUser = getSignedInUser();
     const [isLoading, setIsLoading] = useState(false);
-    const [users, setUsers] = useState<User[]>([]);
+    const [recipients, setRecipients] = useState<User[]>([]);
     const [searchText, setSearchText] = useState('');
-    const [selectedUser, setSelectedUser] = useState<User | null>(null);
+    const [selectedRecipient, setSelectedRecipient] = useState<User | null>(null);
 
     function handleClose() {
         onClose();
-        setUsers([]);
-        setSelectedUser(null);
+        setRecipients([]);
+        setSelectedRecipient(null);
     }
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,17 +39,17 @@ export function RecipientSelectionDialog(props: ContentProps) {
     useDebounce(() => {
         if (!searchText || searchText === '') {
             setIsLoading(false);
-            setUsers([]);
+            setRecipients([]);
             return
         }
-        userService.filter({searchText}).then((response) => {
-            setUsers(response);
+        userService.filter({searchText: searchText.trim()}).then((response) => {
+            setRecipients(response.filter(res => res.id !== currentSignedInUser.id));
             setIsLoading(false);
         });
-    }, 3000, [searchText]);
+    }, 500, [searchText]);
 
     function handleSubmit() {
-        onClose(selectedUser!);
+        onClose(selectedRecipient!);
         handleClose();
     }
 
@@ -77,7 +78,7 @@ export function RecipientSelectionDialog(props: ContentProps) {
                                }}
                     />
                     <Box sx={{margin: '10px 0'}}>
-                        {users.map((user) => (
+                        {recipients.map((user) => (
                             <Box key={user.id}
                                  sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', mt: 2}}>
                                 <Box sx={{display: 'flex', alignItems: 'center'}}>
@@ -90,13 +91,15 @@ export function RecipientSelectionDialog(props: ContentProps) {
                                         <Box sx={{lineHeight: '0.8', fontSize: '12px',}}>{user.email}</Box>
                                     </Box>
                                 </Box>
-                                <Checkbox onClick={() => setSelectedUser(user)}/>
+                                <Checkbox checked={selectedRecipient?.id === user.id}
+                                          onClick={() => setSelectedRecipient(user)}/>
                             </Box>
                         ))}
                     </Box>
                 </DialogContent>
                 <DialogActions sx={{padding: '0 24px 10px 24px'}}>
-                    <Button fullWidth variant='contained' color='secondary' onClick={handleSubmit}>Chat</Button>
+                    <Button fullWidth variant='contained' color='secondary' onClick={handleSubmit}
+                            disabled={!selectedRecipient}>Chat</Button>
                 </DialogActions>
             </Dialog>
         </>

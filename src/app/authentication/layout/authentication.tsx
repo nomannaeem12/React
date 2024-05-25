@@ -1,5 +1,4 @@
-import darkLogo from '../../../assets/social_net_dark.png';
-import lightLogo from '../../../assets/social_net_light.png';
+import logo from '../../../assets/social_net_dark.png';
 import Typography from "@mui/material/Typography";
 import {Outlet} from "react-router-dom";
 import {useContext} from "react";
@@ -9,7 +8,6 @@ import Box from "@mui/material/Box";
 
 export function Authentication() {
     const {theme} = useContext(ThemeContext);
-    const logo = theme.palette.mode === 'dark' ? darkLogo : lightLogo;
     return (
         <>
             <ThemeProvider theme={theme}>

@@ -1,7 +1,5 @@
 import * as React from 'react';
 import {useContext} from 'react';
-import darkLogo from '../../../../assets/social_net_dark.png';
-import lightLogo from '../../../../assets/social_net_light.png';
 import {styled, ThemeProvider} from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
@@ -26,6 +24,7 @@ import StringAvatar from "../../../shared/components/stringAvatar.tsx";
 import {getSignedInUser} from "../../../core/services/user.service.ts";
 import {navigationService} from "../../../core/services/navigation.service.ts";
 import ChatIcon from '@mui/icons-material/Chat';
+import Typography from "@mui/material/Typography";
 
 const drawerWidth: number = 240;
 
@@ -80,7 +79,6 @@ const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})
 export default function Appbar() {
     const user = getSignedInUser();
     const {theme, toggleTheme} = useContext(ThemeContext);
-    const logo = theme.palette.mode === 'dark' ? darkLogo : lightLogo;
     const {navigateToHome, navigateToUserProfile} = navigationService();
     const navigator = useNavigate();
     const {isLoading} = useContext(LoaderContext);
@@ -121,7 +119,12 @@ export default function Appbar() {
                             alignItems: 'center',
                             justifyContent: 'space-between'
                         }}>
-                            <img src={logo} alt="logo" height="50px" onClick={navigateToHome}/>
+                            <Typography
+                                onClick={navigateToHome}
+                                sx={{cursor: 'pointer'}}
+                                variant="h6"
+                                fontFamily='cursive'
+                            >Social NET@</Typography>
                             <IconButton onClick={() => {
                                 navigateToUserProfile(user.id)
                             }}>
