@@ -69,7 +69,7 @@ export function RecipientSelectionDialog(props: ContentProps) {
                     </IconButton>
                 </DialogTitle>
                 <Divider/>
-                <DialogContent sx={{height: '400px', width: '400px', fontSize: '14px'}}>
+                <DialogContent sx={{height: '400px', width: '450px', fontSize: '14px'}}>
                     <TextField placeholder='search...' variant='outlined' size='small' sx={{width: '100%'}}
                                onChange={handleChange}
                                InputProps={{
