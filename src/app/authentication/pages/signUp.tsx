@@ -6,6 +6,8 @@ import Box from "@mui/material/Box";
 import {CircularProgress, Snackbar, TextField} from "@mui/material";
 import Divider from "@mui/material/Divider";
 import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import {Link} from "react-router-dom";
 
 
 interface FormValues {
@@ -49,30 +51,39 @@ export function SignUp() {
 
     return (
         <>
+            <Typography
+                variant="h3"
+                fontFamily='sans-serif'
+                fontWeight='bold'
+                sx={{mb: 5}}
+            >
+                Create Account
+            </Typography>
+
             <Formik initialValues={values} onSubmit={handleAddUser}>
                 {() => (
-                    <Form onSubmit={handleSubmit}>
+                    <Form
+                        onSubmit={handleSubmit}
+                    >
                         <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
-                            <Box sx={{height: '65px', mr: 1}}>
+                            <Box sx={{mr: 1, width: '100%'}}>
                                 <TextField fullWidth
+                                           sx={{minHeight: '80px'}}
                                            value={values.firstName}
                                            name="firstName"
                                            variant="outlined"
-                                           margin='normal'
                                            label="First Name"
-                                           size="small"
                                            onChange={handleChange}
                                            onBlur={handleBlur}
                                            helperText={touched.firstName && errors.firstName}
                                 />
                             </Box>
-                            <Box sx={{height: '65px', ml: 1}}>
+                            <Box sx={{ml: 1, width: '100%'}}>
                                 <TextField fullWidth
+                                           sx={{minHeight: '80px'}}
                                            value={values.lastName}
-                                           size="small"
                                            name="lastName"
                                            variant="outlined"
-                                           margin='normal'
                                            label="Last Name"
                                            onChange={handleChange}
                                            onBlur={handleBlur}
@@ -80,26 +91,24 @@ export function SignUp() {
                                 />
                             </Box>
                         </Box>
-                        <Box sx={{height: '65px'}}>
+                        <Box>
                             <TextField fullWidth
                                        value={values.email}
-                                       size="small"
                                        name="email"
+                                       sx={{minHeight: '80px'}}
                                        variant="outlined"
-                                       margin='normal'
                                        label="Email"
                                        onChange={handleChange}
                                        onBlur={handleBlur}
                                        helperText={touched.email && errors.email}
                             /></Box>
-                        <Box sx={{height: '65px'}}>
+                        <Box>
                             <TextField fullWidth
                                        name="password"
                                        type='password'
                                        variant="outlined"
-                                       margin='normal'
                                        label="Password"
-                                       size="small"
+                                       sx={{minHeight: '80px'}}
                                        value={values.password}
                                        onChange={handleChange}
                                        onBlur={handleBlur}
@@ -109,7 +118,7 @@ export function SignUp() {
                         <Box>
                             <Divider sx={{mt: '15px', mb: '15px'}}/>
                         </Box>
-                        <Button type={"submit"} variant='outlined' fullWidth
+                        <Button type={"submit"} variant='outlined' fullWidth size='large'
                                 endIcon={isLoading ? <CircularProgress size={20} color="inherit"/> : null}
                         >
                             {isLoading ? 'Submitting...' : 'Submit'}
@@ -117,6 +126,13 @@ export function SignUp() {
                     </Form>
                 )}
             </Formik>
+            <Box sx={{width: '100%', mt: 1, textAlign: 'end'}}>
+                <Link to='/' tabIndex={1}>
+                    <Typography fontWeight='bold' fontSize={22}>
+                        back to SignIn
+                    </Typography>
+                </Link>
+            </Box>
             <Snackbar
                 open={snackbarState.open}
                 message={snackbarState.message}
