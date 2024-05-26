@@ -50,7 +50,7 @@ function RecipientSelectionDialogButton({selectedRecipient}: { selectedRecipient
 
     return (
         <>
-            <Button onClick={handleClickOpen} color='secondary' variant='contained' sx={{mt: 3}}>Send message</Button>
+            <Button onClick={handleClickOpen} color='primary' variant='contained' sx={{mt: 3}}>Send message</Button>
             <RecipientSelectionDialog
                 open={open}
                 onClose={handleClose}
