@@ -35,6 +35,8 @@ const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})
                     duration: theme.transitions.duration.leavingScreen,
                 }),
                 width: theme.spacing(7),
+                borderRadius: '4px',
+                border: `1px solid ${theme.palette.mode === 'light' ? '#0000001f' : '#ffffff1f'}`,
                 [theme.breakpoints.up('sm')]: {
                     width: theme.spacing(7),
                 },
@@ -59,7 +61,10 @@ export default function Appbar() {
     return (
         <Box sx={{display: 'flex', height: '100%'}}>
             <CssBaseline/>
-            <Drawer variant="permanent" open={open}>
+            <Drawer variant="permanent" open={open} sx={{
+                margin: '10px 0 10px 10px', borderRadius: '4px',
+                border: `1px solid ${theme.palette.mode === 'light' ? '#0000001f' : '#ffffff1f'}`,
+            }}>
                 <List component="nav">
                     <ListItemButton onClick={toggleDrawer}>
                         <ListItemIcon>
