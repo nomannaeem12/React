@@ -1,7 +1,7 @@
 import {useParams} from "react-router-dom";
 import {Card, CardActions, CardContent, CardHeader, TextField} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
-import React, {useContext, useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {LoaderContext} from "../../../core/providers/loaderProvider.tsx";
 import {User, UserMessage} from "../../../core/interfaces/user.ts";
 import userService from "../../../core/services/user.service.ts";
@@ -13,14 +13,16 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import {ThemeContext} from "../../../core/providers/customThemeProvider.tsx";
 import {containsEmoji} from "../../../shared/functions.ts";
+import {navigationService} from "../../../core/services/navigation.service.ts";
 
 export function Chatterbox() {
     const {recipientId} = useParams();
+    const {theme} = useContext(ThemeContext);
     const {toggleLoading} = useContext(LoaderContext);
     const [recipient, setRecipient] = useState<User | null>(null);
     const [text, setText] = useState<string>('');
     const [userMessages, setUserMessages] = useState<UserMessage[]>([]);
-
+    const {navigateToUserProfile} = navigationService();
     useEffect(() => {
         toggleLoading(true);
         userService.getUserById(+recipientId!)
@@ -91,7 +93,12 @@ export function Chatterbox() {
                             <Typography sx={{color: '#a8a8a8', fontSize: '12px'}}>
                                 {recipient.email}
                             </Typography>
-                            <Button variant='contained' color='secondary' size='small' sx={{m: '15px 0'}}>
+                            <Button variant='text' color='primary' size='small'
+                                    sx={{
+                                        m: '15px 0',
+                                        backgroundColor: theme.palette.mode === 'dark' ? '#90caf914' : '#efefef'
+                                    }}
+                                    onClick={() => navigateToUserProfile(recipient.id)}>
                                 View Profile
                             </Button>
                         </Box>
@@ -115,7 +122,8 @@ export function Chatterbox() {
                 </CardContent>
                 <CardActions>
                     <form onSubmit={handleSubmit} style={{width: '100%'}}>
-                        <TextField sx={{width: 'inherit'}} value={text} onChange={(e) => setText(e.target.value)}/>
+                        <TextField placeholder={'Type a message'} sx={{width: 'inherit'}} value={text}
+                                   onChange={(e) => setText(e.target.value)}/>
                     </form>
                 </CardActions>
             </Card>
