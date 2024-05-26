@@ -19,7 +19,7 @@ export function Authentication() {
                     justifyContent: 'center',
                     height: 'inherit'
                 }}>
-                    <Card sx={{
+                    <Card variant='outlined' sx={{
                         display: 'flex',
                         alignItems: 'center',
                         flexDirection: 'column',
