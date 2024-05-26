@@ -51,7 +51,7 @@ export function SignIn() {
                 fontWeight='bold'
                 sx={{mb: 5}}
             >
-                @Social.Connect!!!
+                @Social.C
             </Typography>
             <Formik initialValues={values} validationSchema={credentialsValidation} onSubmit={handleSignIn}>
                 {() => (
@@ -95,7 +95,7 @@ export function SignIn() {
                     </Form>
                 )}
             </Formik>
-            <Box sx={{width: '100%', mt: 1, textAlign: 'end'}}>
+            <Box sx={{minWidth: '100%', mt: 1, textAlign: 'end'}}>
                 <Link to='/sign-up' tabIndex={1}>
                     <Typography fontWeight='bold' fontSize={22}>
                         create Account

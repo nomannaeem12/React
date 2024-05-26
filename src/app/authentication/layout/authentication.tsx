@@ -21,6 +21,9 @@ export function Authentication() {
                             display: 'flex',
                             alignItems: 'center',
                             flexDirection: 'column',
+                            border: '1px solid white',
+                            padding: '10px 20px',
+                            borderRadius: '10px',
                         }}>
                             <Outlet/>
                         </Box>

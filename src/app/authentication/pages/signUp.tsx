@@ -126,7 +126,7 @@ export function SignUp() {
                     </Form>
                 )}
             </Formik>
-            <Box sx={{width: '100%', mt: 1, textAlign: 'end'}}>
+            <Box sx={{minWidth: '100%', mt: 1, textAlign: 'end'}}>
                 <Link to='/' tabIndex={1}>
                     <Typography fontWeight='bold' fontSize={22}>
                         back to SignIn
