@@ -13,7 +13,7 @@ export const ThemeContext = createContext<ThemeContextType>({
     },
 });
 
-export const ThemeProvider = ({children}: { children: ReactNode }) => {
+export const CustomThemeProvider = ({children}: { children: ReactNode }) => {
     const [currentTheme, setCurrentTheme] = useState(lightTheme);
 
     const toggleTheme = () => {

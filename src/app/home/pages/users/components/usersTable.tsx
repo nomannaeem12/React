@@ -13,7 +13,8 @@ export function UsersTable({users}: { users: User[] }) {
             headerName: 'Name',
             width: 200,
             renderCell: params => (
-                <div style={{cursor: 'pointer',display: 'flex',alignItems:'center'}} onClick={() => navigateToUserProfile(params.value)}>
+                <div style={{cursor: 'pointer', display: 'flex', alignItems: 'center'}}
+                     onClick={() => navigateToUserProfile(params.row.id)}>
                     <StringAvatar name={`${params.row.firstName.trim()} ${params.row.lastName.trim()}`} size={30}/>
                     <Box sx={{ml: 2}}>
                         {params.row.firstName || ''} {params.row.lastName || ''}
@@ -36,7 +37,7 @@ export function UsersTable({users}: { users: User[] }) {
     const rows = [...users];
 
     return (
-        <Box sx={{height: 800, width: '100%'}}>
+        <Box sx={{height: 'inherit'}}>
             <DataGrid
                 rows={rows}
                 columns={columns}

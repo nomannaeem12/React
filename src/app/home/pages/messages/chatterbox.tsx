@@ -11,7 +11,7 @@ import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import {ThemeContext} from "../../../core/providers/themeProvider.tsx";
+import {ThemeContext} from "../../../core/providers/customThemeProvider.tsx";
 import {containsEmoji} from "../../../shared/functions.ts";
 
 export function Chatterbox() {
@@ -51,7 +51,6 @@ export function Chatterbox() {
                 variant='outlined'
                 sx={{
                     height: '100%',
-                    width: '800px',
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'space-around'
@@ -74,7 +73,7 @@ export function Chatterbox() {
                     subheader="Active 7h ago"
                 />
                 <Divider/>
-                <CardContent sx={{height: '80%', overflow: 'auto'}}>
+                <CardContent sx={{height: '100%', overflow: 'auto'}}>
                     <Box>
                         <Box sx={{
                             display: 'flex',

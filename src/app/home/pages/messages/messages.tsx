@@ -15,7 +15,7 @@ export function Messages() {
 
     return (
         <>
-            <Box sx={{display: 'flex', alignItems: 'center', height: '100%'}}>
+            <Box sx={{display: 'flex', alignItems: 'center', height: '100%', justifyContent: 'center'}}>
                 <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                     <Box>
                         <ChatIcon sx={{height: '50px', width: 'auto'}}/>

@@ -8,17 +8,20 @@ import {AuthGuard} from "./core/guards/authGuard.tsx";
 import {LoginGuard} from "./core/guards/loginGuard.tsx";
 import {Users} from "./home/pages/users/users.tsx";
 import {NotFound} from "./shared/pages/notFound.tsx";
-import {ThemeProvider} from "./core/providers/themeProvider.tsx";
+import {ThemeContext} from "./core/providers/customThemeProvider.tsx";
 import {UserProfile} from "./home/pages/users/user-profile.tsx";
 import {Inbox} from "./home/pages/messages/inbox.tsx";
 import {Messages} from "./home/pages/messages/messages.tsx";
 import {Chatterbox} from "./home/pages/messages/chatterbox.tsx";
+import {useContext} from "react";
+import {ThemeProvider} from "@mui/material/styles";
 
 function App() {
+    const {theme} = useContext(ThemeContext);
 
     return (
         <>
-            <ThemeProvider>
+            <ThemeProvider theme={theme}>
                 <Routes>
                     <Route path="" element={<LoginGuard><Authentication/></LoginGuard>}>
                         <Route index element={<SignIn/>}/>

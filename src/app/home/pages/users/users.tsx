@@ -17,7 +17,7 @@ export function Users() {
     }, [])
     return (
         <>
-            <Box sx={{textAlign: "end"}}>
+            <Box sx={{height: '100%'}}>
                 <UsersTable users={users}/>
             </Box>
         </>
