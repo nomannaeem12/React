@@ -12,7 +12,7 @@ export function navigationService() {
         navigate(`/home/users/${userId}`);
     }
 
-    const navigateToUserMessagePage = (userId: number) => {
+    const navigateToMessagePage = () => {
         navigate(`/home/messages`);
     }
 
@@ -20,10 +20,15 @@ export function navigationService() {
         navigate(`/home/messages/chatterbox/${recipientId}`);
     }
 
+    const navigateToSignInPage = () => {
+        navigate(`/`);
+    }
+
     return {
         navigateToHome,
         navigateToUserProfile,
-        navigateToUserMessagePage,
-        navigateToChatterbox
+        navigateToMessagePage,
+        navigateToChatterbox,
+        navigateToSignInPage
     };
 }

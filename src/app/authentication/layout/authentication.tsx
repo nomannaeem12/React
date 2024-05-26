@@ -1,27 +1,32 @@
+import {useContext} from "react";
 import {Outlet} from "react-router-dom";
-import {Container} from "@mui/material";
+import {Card, Container} from "@mui/material";
 import Box from "@mui/material/Box";
+import {ThemeContext} from "../../core/providers/customThemeProvider.tsx";
 
 export function Authentication() {
+    const {theme} = useContext(ThemeContext);
     return (
         <>
-            <Box sx={{height: 'inherit'}}>
+            <Box sx={{
+                height: 'inherit',
+                background: theme.palette.mode === 'dark' ? 'black' : 'white',
+                color: theme.palette.mode === 'light' ? 'black' : 'white',
+            }}>
                 <Container sx={{
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     height: 'inherit'
                 }}>
-                    <Box sx={{
+                    <Card sx={{
                         display: 'flex',
                         alignItems: 'center',
                         flexDirection: 'column',
-                        border: '1px solid white',
                         padding: '10px 20px',
-                        borderRadius: '10px',
                     }}>
                         <Outlet/>
-                    </Box>
+                    </Card>
                 </Container>
             </Box>
         </>

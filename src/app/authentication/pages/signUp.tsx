@@ -8,6 +8,7 @@ import Divider from "@mui/material/Divider";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import {Link} from "react-router-dom";
+import {navigationService} from "../../core/services/navigation.service.ts";
 
 
 interface FormValues {
@@ -18,7 +19,7 @@ interface FormValues {
 }
 
 export function SignUp() {
-
+    const {navigateToSignInPage} = navigationService();
     const [isLoading, setIsLoading] = useState(false);
     const [snackbarState, setSnackbarState] = useState({
         open: false,
@@ -37,6 +38,7 @@ export function SignUp() {
             .then((response) => {
                 setSnackbarState({open: true, message: `User Added Successfully`});
                 resetForm();
+                navigateToSignInPage();
             })
             .catch((error) => setSnackbarState({open: true, message: `${error}`}))
             .finally(() => setIsLoading(false))

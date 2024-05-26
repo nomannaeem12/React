@@ -4,12 +4,13 @@ import {SignInDTO} from "../../core/interfaces/authentication.interface.ts";
 import {useState} from "react";
 import * as yup from 'yup';
 import {setSignedInUser} from "../../core/services/user.service.ts";
-import {Link, useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import authenticationService from "../../core/services/auth.service.ts";
 import Divider from "@mui/material/Divider";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
+import {navigationService} from "../../core/services/navigation.service.ts";
 
 interface FormValues extends SignInDTO {
 }
@@ -20,14 +21,14 @@ export function SignIn() {
         open: false,
         message: '',
     });
-    const navigate = useNavigate();
+    const {navigateToMessagePage} = navigationService();
     const handleSignIn = (values: FormValues) => {
         setIsLoading(true);
         authenticationService.signIn(values)
             .then((response) => {
                 setSnackbarState({open: true, message: `Logged in Successfully`});
                 setSignedInUser(response);
-                navigate('/home');
+                navigateToMessagePage();
             })
             .catch((error) => setSnackbarState({open: true, message: `${error.message}`}))
             .finally(() => setIsLoading(false))
