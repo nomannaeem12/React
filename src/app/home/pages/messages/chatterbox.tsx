@@ -22,7 +22,7 @@ export function Chatterbox() {
     const [recipient, setRecipient] = useState<User | null>(null);
     const [text, setText] = useState<string>('');
     const [userMessages, setUserMessages] = useState<UserMessage[]>([]);
-    const {navigateToUserProfile} = navigationService();
+    const {userProfile} = navigationService();
     useEffect(() => {
         toggleLoading(true);
         userService.getUserById(+recipientId!)
@@ -98,7 +98,7 @@ export function Chatterbox() {
                                         m: '15px 0',
                                         backgroundColor: theme.palette.mode === 'dark' ? '#90caf914' : '#efefef'
                                     }}
-                                    onClick={() => navigateToUserProfile(recipient.id)}>
+                                    onClick={() => userProfile(recipient.id)}>
                                 View Profile
                             </Button>
                         </Box>

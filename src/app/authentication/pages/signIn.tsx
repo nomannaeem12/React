@@ -21,14 +21,14 @@ export function SignIn() {
         open: false,
         message: '',
     });
-    const {navigateToMessagePage} = navigationService();
+    const {messagePage} = navigationService();
     const handleSignIn = (values: FormValues) => {
         setIsLoading(true);
         authenticationService.signIn(values)
             .then((response) => {
                 setSnackbarState({open: true, message: `Logged in Successfully`});
                 setSignedInUser(response);
-                navigateToMessagePage();
+                messagePage();
             })
             .catch((error) => setSnackbarState({open: true, message: `${error.message}`}))
             .finally(() => setIsLoading(false))

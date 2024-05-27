@@ -4,31 +4,31 @@ export function navigationService() {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const navigate = useNavigate();
 
-    const navigateToHome = () => {
+    const homePage = () => {
         navigate('/home');
     }
 
-    const navigateToUserProfile = (userId: number) => {
+    const userProfile = (userId: number) => {
         navigate(`/home/users/${userId}`);
     }
 
-    const navigateToMessagePage = () => {
+    const messagePage = () => {
         navigate(`/home/messages`);
     }
 
-    const navigateToChatterbox = (recipientId: number) => {
+    const chatterbox = (recipientId: number) => {
         navigate(`/home/messages/chatterbox/${recipientId}`);
     }
 
-    const navigateToSignInPage = () => {
+    const signInPage = () => {
         navigate(`/`);
     }
 
     return {
-        navigateToHome,
-        navigateToUserProfile,
-        navigateToMessagePage,
-        navigateToChatterbox,
-        navigateToSignInPage
+        homePage,
+        userProfile,
+        messagePage,
+        chatterbox,
+        signInPage
     };
 }

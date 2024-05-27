@@ -6,7 +6,7 @@ import {navigationService} from "../../../../core/services/navigation.service.ts
 import StringAvatar from "../../../../shared/components/stringAvatar.tsx";
 
 export function UsersTable({users}: { users: User[] }) {
-    const {navigateToUserProfile} = navigationService();
+    const {userProfile} = navigationService();
     const columns: GridColDef<(typeof rows)[number]>[] = [
         {
             field: 'name',
@@ -14,7 +14,7 @@ export function UsersTable({users}: { users: User[] }) {
             width: 200,
             renderCell: params => (
                 <div style={{cursor: 'pointer', display: 'flex', alignItems: 'center'}}
-                     onClick={() => navigateToUserProfile(params.row.id)}>
+                     onClick={() => userProfile(params.row.id)}>
                     <StringAvatar name={`${params.row.firstName.trim()} ${params.row.lastName.trim()}`} size={30}/>
                     <Box sx={{ml: 2}}>
                         {params.row.firstName || ''} {params.row.lastName || ''}

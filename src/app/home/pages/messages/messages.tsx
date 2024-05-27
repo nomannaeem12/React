@@ -8,9 +8,9 @@ import {User} from "../../../core/interfaces/user.ts";
 import {navigationService} from "../../../core/services/navigation.service.ts";
 
 export function Messages() {
-    const {navigateToChatterbox} = navigationService();
+    const {chatterbox} = navigationService();
     const selectedRecipient = (data: User) => {
-        navigateToChatterbox(data.id);
+        chatterbox(data.id);
     }
 
     return (

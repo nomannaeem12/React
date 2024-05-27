@@ -19,7 +19,7 @@ interface FormValues {
 }
 
 export function SignUp() {
-    const {navigateToSignInPage} = navigationService();
+    const {signInPage} = navigationService();
     const [isLoading, setIsLoading] = useState(false);
     const [snackbarState, setSnackbarState] = useState({
         open: false,
@@ -38,7 +38,7 @@ export function SignUp() {
             .then((response) => {
                 setSnackbarState({open: true, message: `User Added Successfully`});
                 resetForm();
-                navigateToSignInPage();
+                signInPage();
             })
             .catch((error) => setSnackbarState({open: true, message: `${error}`}))
             .finally(() => setIsLoading(false))
