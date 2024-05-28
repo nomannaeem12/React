@@ -1,6 +1,6 @@
 import {useContext, useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
-import userService from "../../../core/services/user.service.ts";
+import usersService from "../../../core/services/users.service.ts";
 import {User} from "../../../core/interfaces/user.ts";
 import {LoaderContext} from "../../../core/providers/loaderProvider.tsx";
 import Box from "@mui/material/Box";
@@ -16,7 +16,7 @@ export function UserProfile() {
     const [user, setUser] = useState<User | null>(null);
     useEffect(() => {
         toggleLoading(true);
-        userService.getUserById(+id!)
+        usersService.getUserById(+id!)
             .then((user) => {
                 setUser(user);
                 toggleLoading(false);

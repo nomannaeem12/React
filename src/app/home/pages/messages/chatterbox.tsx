@@ -4,7 +4,7 @@ import IconButton from "@mui/material/IconButton";
 import {useContext, useEffect, useState} from "react";
 import {LoaderContext} from "../../../core/providers/loaderProvider.tsx";
 import {User, UserMessage} from "../../../core/interfaces/user.ts";
-import userService from "../../../core/services/user.service.ts";
+import usersService, {getSignedInUser} from "../../../core/services/users.service.ts";
 import StringAvatar from "../../../shared/components/stringAvatar.tsx";
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import Divider from "@mui/material/Divider";
@@ -14,6 +14,8 @@ import Button from "@mui/material/Button";
 import {ThemeContext} from "../../../core/providers/customThemeProvider.tsx";
 import {containsEmoji} from "../../../shared/functions.ts";
 import {navigationService} from "../../../core/services/navigation.service.ts";
+import messagesService from "../../../core/services/messages.service.ts";
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 export function Chatterbox() {
     const {recipientId} = useParams();
@@ -23,29 +25,42 @@ export function Chatterbox() {
     const [text, setText] = useState<string>('');
     const [userMessages, setUserMessages] = useState<UserMessage[]>([]);
     const {userProfile} = navigationService();
-    useEffect(() => {
-        toggleLoading(true);
-        userService.getUserById(+recipientId!)
-            .then((response) => {
-                setRecipient(response);
-                toggleLoading(false);
-            })
-        userService.getUserMessages(+recipientId!).then((response) => {
+
+    function filteredUserMessages() {
+        const payload: UserMessageDto = {initiatorId: getSignedInUser().id, recipientId: +recipientId!};
+        messagesService.getMessages(payload).then((response) => {
             const messages: UserMessage[] = [...response.inbox, ...response.outbox];
             messages.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
             setUserMessages(messages);
         })
+    }
+
+    useEffect(() => {
+        toggleLoading(true);
+        usersService.getUserById(+recipientId!)
+            .then((response) => {
+                setRecipient(response);
+                toggleLoading(false);
+            })
+        filteredUserMessages();
     }, [recipientId]);
 
     function handleSubmit(event: { preventDefault: () => void; }) {
         event.preventDefault();
         if (!text.trim()) return;
-        const payload: CreateUserMessageDto = {text: text, receiverId: +recipientId!};
-        userService.sendMessage(payload).then((response) => {
+        const payload: CreateUserMessageDto = {text: text, recipientId: +recipientId!};
+        messagesService.sendMessage(payload).then((response) => {
             setUserMessages([...userMessages, response]);
             setText('');
         })
     }
+
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            handleSubmit(e);
+        }
+    };
 
     return (
         recipient && <>
@@ -106,15 +121,11 @@ export function Chatterbox() {
                     <Box>
                         {
                             userMessages && userMessages.map((userMessage, index) => (
-                                <Box
-                                    sx={{
-                                        mb: '3px',
-                                        display: 'flex',
-                                        justifyContent: userMessage.receiverId !== recipient.id ? 'start' : 'end'
-                                    }}
-                                    key={index}
-                                >
-                                    <TextMessageContainer userMessage={userMessage} recipientId={recipient.id}/>
+                                <Box key={index}>
+                                    <TextMessageContainer
+                                        userMessage={userMessage}
+                                        recipientId={recipient.id}
+                                    />
                                 </Box>
                             ))
                         }
@@ -122,8 +133,14 @@ export function Chatterbox() {
                 </CardContent>
                 <CardActions>
                     <form onSubmit={handleSubmit} style={{width: '100%'}}>
-                        <TextField placeholder={'Type a message'} sx={{width: 'inherit'}} value={text}
-                                   onChange={(e) => setText(e.target.value)}/>
+                        <TextField
+                            placeholder={'Type a message'}
+                            sx={{width: 'inherit'}}
+                            value={text}
+                            multiline
+                            onChange={(e) => setText(e.target.value)}
+                            onKeyDown={handleKeyDown}
+                        />
                     </form>
                 </CardActions>
             </Card>
@@ -131,13 +148,12 @@ export function Chatterbox() {
     )
 }
 
-export interface CreateUserMessageDto {
-    receiverId: number;
-    text: string;
-}
+function TextMessageContainer({userMessage, recipientId}: {
+    userMessage: UserMessage,
+    recipientId: number,
+}) {
+    const [showMessageOptions, setMessageOptionsState] = useState<boolean>(false);
 
-
-function TextMessageContainer({userMessage, recipientId}: { userMessage: UserMessage, recipientId: number }) {
     const {theme} = useContext(ThemeContext);
     const isDarkMode = theme.palette.mode === 'dark';
     const isReceiver = userMessage.receiverId !== recipientId;
@@ -154,15 +170,46 @@ function TextMessageContainer({userMessage, recipientId}: { userMessage: UserMes
 
     return (
         <>
-            <Box style={{
-                backgroundColor: backgroundColor,
-                color: color,
-                padding: !isEmoji ? '0' : isReceiver ? '5px 15px 5px 10px' : '5px 10px 5px 15px',
-                borderRadius: !isEmoji ? '0' : isReceiver ? '4px 18px 18px 4px' : '18px 4px 4px 18px',
-                fontSize: !isEmoji ? '50px' : 'inherit'
-            }}>
-                {userMessage.message.text}
+            <Box
+                sx={{
+                    mb: '3px',
+                    display: 'flex',
+                    justifyContent: isReceiver ? 'start' : 'end',
+                    flexDirection: isReceiver ? 'row' : 'row-reverse',
+                    alignItems: 'center',
+                }}
+                onMouseEnter={() => setMessageOptionsState(true)}
+                onMouseLeave={() => setMessageOptionsState(false)}
+            >
+                <Box style={{
+                    backgroundColor: backgroundColor,
+                    color: color,
+                    padding: !isEmoji ? '0' : isReceiver ? '5px 15px 5px 10px' : '5px 10px 5px 15px',
+                    borderRadius: !isEmoji ? '0' : isReceiver ? '4px 18px 18px 4px' : '18px 4px 4px 18px',
+                    fontSize: !isEmoji ? '50px' : 'inherit',
+                    margin: isReceiver ? '0 10px 0 0' : '0 0 0 10px',
+                    maxWidth: '90%'
+                }}>
+                    {userMessage.message.text}
+                </Box>
+                {showMessageOptions &&
+                    <>
+                        <IconButton size={"small"}>
+                            <MoreVertIcon sx={{fontSize: '18px'}}/>
+                        </IconButton>
+                    </>
+                }
             </Box>
         </>
     )
+}
+
+export interface CreateUserMessageDto {
+    recipientId: number;
+    text: string;
+}
+
+export interface UserMessageDto {
+    initiatorId: number;
+    recipientId: number;
 }

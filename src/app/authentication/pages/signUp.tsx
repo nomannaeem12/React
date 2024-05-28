@@ -1,6 +1,6 @@
 import {useState} from "react";
 import * as yup from "yup";
-import userService from "../../core/services/user.service.ts";
+import usersService from "../../core/services/users.service.ts";
 import {Form, Formik, useFormik} from "formik";
 import Box from "@mui/material/Box";
 import {CircularProgress, Snackbar, TextField} from "@mui/material";
@@ -34,7 +34,7 @@ export function SignUp() {
 
     const handleAddUser = (values: FormValues) => {
         setIsLoading(true);
-        userService.addUser(values)
+        usersService.addUser(values)
             .then((response) => {
                 setSnackbarState({open: true, message: `User Added Successfully`});
                 resetForm();

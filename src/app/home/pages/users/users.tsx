@@ -1,5 +1,5 @@
 import {useContext, useEffect, useState} from "react";
-import userService from "../../../core/services/user.service.ts";
+import usersService from "../../../core/services/users.service.ts";
 import {User} from "../../../core/interfaces/user.ts";
 import {UsersTable} from "./components/usersTable.tsx";
 import {Box} from "@mui/material";
@@ -10,7 +10,7 @@ export function Users() {
     const [users, setUsers] = useState<User[]>([]);
     useEffect(() => {
         toggleLoading(true);
-        userService.getUsers().then((response: User[]) => {
+        usersService.getUsers().then((response: User[]) => {
             setUsers(response);
             toggleLoading(false);
         })

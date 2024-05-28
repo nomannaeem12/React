@@ -3,7 +3,7 @@ import {Form, Formik, useFormik} from "formik";
 import {SignInDTO} from "../../core/interfaces/authentication.interface.ts";
 import {useState} from "react";
 import * as yup from 'yup';
-import {setSignedInUser} from "../../core/services/user.service.ts";
+import {setSignedInUser} from "../../core/services/users.service.ts";
 import {Link} from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import authenticationService from "../../core/services/auth.service.ts";

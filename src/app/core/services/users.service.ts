@@ -1,16 +1,13 @@
 import {SignIn} from "../interfaces/authentication.interface.ts";
 import {createRequest} from "./request.service.ts";
-import {User, UserMessage} from "../interfaces/user.ts";
+import {User} from "../interfaces/user.ts";
 import {UsersFilterDto} from "../../home/pages/messages/components/recipientSelectionDialog.tsx";
-import {CreateUserMessageDto} from "../../home/pages/messages/chatterbox.tsx";
 
-interface UserService {
+interface UsersService {
     getUsers: () => Promise<User[]>;
-    getUserMessages: (id: number) => Promise<{ inbox: [], outbox: [] }>;
     addUser: (user: Partial<User>) => Promise<User>;
     filter: (searchText: UsersFilterDto) => Promise<User[]>;
     getUserById: (id: number) => Promise<User>;
-    sendMessage: (body: CreateUserMessageDto) => Promise<UserMessage>;
 }
 
 export function setSignedInUser(response: SignIn) {
@@ -24,16 +21,6 @@ export function getSignedInUser() {
 
 export const getUsers = async (): Promise<User[]> => {
     const request = createRequest('/users', 'GET');
-    const response = await request;
-    if (!response.ok) {
-        handleAuthenticationError(response);
-        throw new Error((await response.json()).error);
-    }
-    return await response.json();
-}
-
-export const getUserMessages = async (recipientId: number): Promise<{ inbox: [], outbox: [] }> => {
-    const request = createRequest(`/users/${recipientId}/get-messages`, 'GET');
     const response = await request;
     if (!response.ok) {
         handleAuthenticationError(response);
@@ -61,16 +48,6 @@ export const addUser = async (body: Partial<User>): Promise<User> => {
     return await response.json();
 }
 
-export const sendMessage = async (body: CreateUserMessageDto): Promise<UserMessage> => {
-    const request = createRequest('/user-message', 'POST', body);
-    const response = await request;
-    if (!response.ok) {
-        handleAuthenticationError(response);
-        throw new Error((await response.json()).error);
-    }
-    return await response.json();
-}
-
 export const filter = async (body: UsersFilterDto): Promise<User[]> => {
     const request = createRequest('/users/filter', 'POST', body);
     const response = await request;
@@ -90,13 +67,11 @@ const handleAuthenticationError = (response: Response) => {
     return response;
 };
 
-const userService: UserService = {
+const usersService: UsersService = {
     getUsers,
-    getUserMessages,
     addUser,
     filter,
     getUserById,
-    sendMessage
 }
 
-export default userService;
+export default usersService;

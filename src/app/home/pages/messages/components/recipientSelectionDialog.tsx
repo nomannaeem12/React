@@ -6,7 +6,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import IconButton from "@mui/material/IconButton";
 import Divider from "@mui/material/Divider";
 import Button from "@mui/material/Button";
-import userService, {getSignedInUser} from "../../../../core/services/user.service.ts";
+import usersService, {getSignedInUser} from "../../../../core/services/users.service.ts";
 import Box from "@mui/material/Box";
 import {User} from "../../../../core/interfaces/user.ts";
 import StringAvatar from "../../../../shared/components/stringAvatar.tsx";
@@ -42,7 +42,7 @@ export function RecipientSelectionDialog(props: ContentProps) {
             setRecipients([]);
             return
         }
-        userService.filter({searchText: searchText.trim()}).then((response) => {
+        usersService.filter({searchText: searchText.trim()}).then((response) => {
             setRecipients(response.filter(res => res.id !== currentSignedInUser.id));
             setIsLoading(false);
         });
