@@ -1,7 +1,7 @@
 import {useParams} from "react-router-dom";
-import {Card, CardActions, CardContent, CardHeader, TextField} from "@mui/material";
+import {Card, CardActions, CardContent, CardHeader, Menu, MenuItem, TextField} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
-import {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {LoaderContext} from "../../../core/providers/loaderProvider.tsx";
 import {User, UserMessage} from "../../../core/interfaces/user.ts";
 import usersService, {getSignedInUser} from "../../../core/services/users.service.ts";
@@ -12,10 +12,12 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import {ThemeContext} from "../../../core/providers/customThemeProvider.tsx";
-import {containsEmoji} from "../../../shared/functions.ts";
+import {containsEmoji, shortDate} from "../../../shared/functions.ts";
 import {navigationService} from "../../../core/services/navigation.service.ts";
 import messagesService from "../../../core/services/messages.service.ts";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export function Chatterbox() {
     const {recipientId} = useParams();
@@ -61,6 +63,17 @@ export function Chatterbox() {
             handleSubmit(e);
         }
     };
+
+    const handleEdit = (userMessageToEdit: UserMessage) => {
+        setUserMessages(userMessages.map(userMessage => ({
+            ...userMessage,
+            isEditMessage: userMessage.id === userMessageToEdit.id
+        })))
+    }
+
+    const handleEdited = (editedUserMessage: UserMessage) => {
+        setUserMessages(userMessages.map(userMessage => userMessage.id === editedUserMessage.id ? editedUserMessage : userMessage));
+    }
 
     return (
         recipient && <>
@@ -122,17 +135,29 @@ export function Chatterbox() {
                         {
                             userMessages && userMessages.map((userMessage, index) => (
                                 <Box key={index}>
-                                    <TextMessageContainer
-                                        userMessage={userMessage}
-                                        recipientId={recipient.id}
-                                    />
+                                    {userMessage.isEditMessage ?
+                                        <EditMessageContainer
+                                            userMessage={userMessage}
+                                            onClose={() => setUserMessages(userMessages.map(userMessage => ({
+                                                ...userMessage, isEditMessage: false
+                                            })))}
+                                            editedMessage={handleEdited}
+                                        />
+                                        :
+                                        <TextMessageContainer
+                                            userMessage={userMessage}
+                                            recipientId={recipient.id}
+                                            editMessage={handleEdit}
+                                        />
+                                    }
                                 </Box>
                             ))
                         }
                     </Box>
                 </CardContent>
                 <CardActions>
-                    <form onSubmit={handleSubmit} style={{width: '100%'}}>
+                    <form onSubmit={handleSubmit}
+                          style={{width: '100%', background: `${theme.palette.mode === 'dark' ? 'black' : 'white'}`}}>
                         <TextField
                             placeholder={'Type a message'}
                             sx={{width: 'inherit'}}
@@ -148,25 +173,25 @@ export function Chatterbox() {
     )
 }
 
-function TextMessageContainer({userMessage, recipientId}: {
+function TextMessageContainer({userMessage, recipientId, editMessage}: {
     userMessage: UserMessage,
     recipientId: number,
+    editMessage: (userMessage: UserMessage) => void
 }) {
     const [showMessageOptions, setMessageOptionsState] = useState<boolean>(false);
-
     const {theme} = useContext(ThemeContext);
     const isDarkMode = theme.palette.mode === 'dark';
-    const isReceiver = userMessage.receiverId !== recipientId;
+    const isRecipient = userMessage.receiverId !== recipientId;
     const isEmoji = !containsEmoji(userMessage.message.text);
     const backgroundColor = isEmoji
         ? isDarkMode
-            ? (isReceiver ? 'black' : '#3797f0')
-            : (isReceiver ? '#efefef' : '#3797f0')
+            ? (isRecipient ? 'black' : '#3797f0')
+            : (isRecipient ? '#efefef' : '#3797f0')
         : 'transparent';
 
     const color = isDarkMode
-        ? (isReceiver ? 'white' : 'black')
-        : (isReceiver ? 'black' : 'white');
+        ? (isRecipient ? 'white' : 'black')
+        : (isRecipient ? 'black' : 'white');
 
     return (
         <>
@@ -174,8 +199,8 @@ function TextMessageContainer({userMessage, recipientId}: {
                 sx={{
                     mb: '3px',
                     display: 'flex',
-                    justifyContent: isReceiver ? 'start' : 'end',
-                    flexDirection: isReceiver ? 'row' : 'row-reverse',
+                    justifyContent: isRecipient ? 'start' : 'end',
+                    flexDirection: isRecipient ? 'row' : 'row-reverse',
                     alignItems: 'center',
                 }}
                 onMouseEnter={() => setMessageOptionsState(true)}
@@ -184,21 +209,164 @@ function TextMessageContainer({userMessage, recipientId}: {
                 <Box style={{
                     backgroundColor: backgroundColor,
                     color: color,
-                    padding: !isEmoji ? '0' : isReceiver ? '5px 15px 5px 10px' : '5px 10px 5px 15px',
-                    borderRadius: !isEmoji ? '0' : isReceiver ? '4px 18px 18px 4px' : '18px 4px 4px 18px',
+                    padding: !isEmoji ? '0' : isRecipient ? '5px 15px 5px 10px' : '5px 10px 5px 15px',
+                    borderRadius: !isEmoji ? '0' : isRecipient ? '4px 18px 18px 4px' : '18px 4px 4px 18px',
                     fontSize: !isEmoji ? '50px' : 'inherit',
-                    margin: isReceiver ? '0 10px 0 0' : '0 0 0 10px',
+                    margin: isRecipient ? '0 10px 0 0' : '0 0 0 10px',
                     maxWidth: '90%'
                 }}>
                     {userMessage.message.text}
                 </Box>
                 {showMessageOptions &&
                     <>
-                        <IconButton size={"small"}>
-                            <MoreVertIcon sx={{fontSize: '18px'}}/>
-                        </IconButton>
+                        <MessageOptions isRecipient={isRecipient} userMessage={userMessage} editMessage={editMessage}/>
                     </>
                 }
+            </Box>
+        </>
+    )
+}
+
+function MessageOptions({isRecipient, userMessage, editMessage}: {
+    isRecipient: boolean,
+    userMessage: UserMessage,
+    editMessage: (userMessage: UserMessage) => void
+}) {
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+    const handleEdit = () => {
+        editMessage(userMessage)
+        setAnchorEl(null);
+    };
+
+    return (
+        <div>
+            <IconButton
+                aria-label="more"
+                id="long-button"
+                aria-controls={open ? 'long-menu' : undefined}
+                aria-expanded={open ? 'true' : undefined}
+                aria-haspopup="true"
+                onClick={handleClick}
+            >
+                <MoreVertIcon sx={{fontSize: '18px'}}/>
+            </IconButton>
+            <Menu
+                transformOrigin={{horizontal: isRecipient ? 'left' : 'right', vertical: 'top'}}
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+                PaperProps={{
+                    style: {
+                        borderRadius: '10px',
+                        padding: '0 10px',
+                        width: '150px',
+                        textAlign: 'center'
+                    },
+                }}
+            >
+                <Box sx={{fontSize: 'small'}}>
+                    {shortDate(userMessage.createdAt)}
+                </Box>
+                <Divider/>
+                {!isRecipient &&
+                    <MenuItem onClick={handleEdit} sx={{
+                        margin: '5px 0',
+                        borderRadius: '10px',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        fontSize: 'small'
+                    }}>
+                        Edit
+                        <EditIcon sx={{fontSize: '20px'}}/>
+                    </MenuItem>}
+                <MenuItem
+                    disabled={true}
+                    onClick={handleClose}
+                    sx={{
+                        margin: '5px 0', borderRadius: '10px',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        fontSize: 'small',
+
+                    }}>
+                    Delete
+                    <DeleteIcon sx={{fontSize: '20px'}}/>
+                </MenuItem>
+            </Menu>
+        </div>
+    );
+}
+
+function EditMessageContainer({userMessage, editedMessage, onClose}: {
+    userMessage: UserMessage,
+    editedMessage: (updatedUserMessage: UserMessage) => void,
+    onClose: () => void
+}) {
+    const [text, setText] = useState<string>('');
+    const {theme} = useContext(ThemeContext);
+
+    useEffect(() => {
+        setText(userMessage.message.text);
+    }, [userMessage])
+
+    function handleSubmit(event: { preventDefault: () => void; }) {
+        event.preventDefault();
+        if (!text.trim() || text === userMessage.message.text) return;
+        const payload: UpdateUserMessageDto = {text: text};
+        messagesService.editMessage(userMessage.id, payload).then((response) => {
+            editedMessage(response);
+        })
+    }
+
+    const handleKeyDown = (e) => {
+        if (e.key === 'Escape') {
+            onClose();
+        }
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            handleSubmit(e);
+        }
+    };
+
+    return (
+        <>
+            <Box sx={{
+                background: `${theme.palette.mode === 'dark' ? '#1e1b1f' : '#241f260a'}`, margin: '8px 0', p: 2, pb: 0,
+                borderLeft: `10px solid ${theme.palette.mode === 'dark' ? '#5f9ea07d' : '#241f264f'}`,
+                borderRadius: '10px'
+            }}>
+                <form onSubmit={handleSubmit}
+                      style={{width: '100%', background: `${theme.palette.mode === 'dark' ? 'black' : 'white'}`}}>
+                    <TextField
+                        placeholder={'Edit message'}
+                        sx={{width: 'inherit'}}
+                        multiline
+                        value={text}
+                        onChange={(event) => setText(event.target.value)}
+                        onKeyDown={handleKeyDown}
+                    />
+                </form>
+                <Box sx={{p: 1, display: 'flex', fontSize: 'small'}}>
+                    escape to&nbsp;
+                    <Typography
+                        style={{textDecoration: 'underline', color: '#3797f0', fontSize: 'small', cursor: 'pointer'}}
+                        onClick={onClose}>
+                        cancel
+                    </Typography>&nbsp;•
+                    &nbsp;enter to&nbsp;
+                    <Typography
+                        style={{textDecoration: 'underline', color: '#3797f0', fontSize: 'small', cursor: 'pointer'}}
+                        onClick={handleSubmit}
+                    >Save
+                    </Typography>&nbsp;
+                </Box>
             </Box>
         </>
     )
@@ -207,6 +375,9 @@ function TextMessageContainer({userMessage, recipientId}: {
 export interface CreateUserMessageDto {
     recipientId: number;
     text: string;
+}
+
+export interface UpdateUserMessageDto extends Partial<CreateUserMessageDto> {
 }
 
 export interface UserMessageDto {
