@@ -1,7 +1,7 @@
 import moment from "moment/moment";
 
 export function shortDate(value: Date): string {
-    return moment(value).format('h:mm a, M/d/yy');
+    return moment(value).format('h:mm a, MM/DD/yy');
 }
 
 export function containsEmoji(text: string): boolean {
