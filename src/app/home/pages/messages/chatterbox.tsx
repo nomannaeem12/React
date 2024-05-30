@@ -1,5 +1,5 @@
 import {useParams} from "react-router-dom";
-import {Card, CardActions, CardContent, CardHeader, Menu, MenuItem, TextField} from "@mui/material";
+import {Card, CardActions, CardContent, CardHeader, Menu, MenuItem, TextField, Tooltip} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import React, {useContext, useEffect, useState} from "react";
 import {LoaderContext} from "../../../core/providers/loaderProvider.tsx";
@@ -212,11 +212,16 @@ function TextMessageContainer({userMessage, recipientId, editMessage}: {
                     padding: !isEmoji ? '0' : isRecipient ? '5px 15px 5px 10px' : '5px 10px 5px 15px',
                     borderRadius: !isEmoji ? '0' : isRecipient ? '4px 18px 18px 4px' : '18px 4px 4px 18px',
                     fontSize: !isEmoji ? '50px' : 'inherit',
-                    margin: isRecipient ? '0 10px 0 0' : '0 0 0 10px',
-                    maxWidth: '90%'
+                    margin: isRecipient ? '0 5px 0 0' : '0 0 0 5px',
+                    maxWidth: '90%',
+                    whiteSpace: 'pre-line'
                 }}>
                     {userMessage.message.text}
-                </Box>
+                </Box> {userMessage.isEdited &&
+                <Tooltip title={shortDate(userMessage.updatedAt)}>
+                    <Typography fontSize={'11px'} alignSelf={'flex-end'} sx={{cursor: 'pointer'}}>(edited)</Typography>
+                </Tooltip>
+            }
                 {showMessageOptions &&
                     <>
                         <MessageOptions isRecipient={isRecipient} userMessage={userMessage} editMessage={editMessage}/>
