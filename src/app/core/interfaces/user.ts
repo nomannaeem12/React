@@ -14,15 +14,19 @@ export interface User extends BasicEntity {
 export interface UserMessage extends BasicEntity {
     // response
     messageId: number;
-    senderId: number;
-    receiverId: number;
-    isEdited: boolean;
+    initiatorId: number;
+    recipientId: number;
+    isMessageEdited: boolean;
+    isMessageRead: boolean;
+    isRecipientMessageDeleted: boolean;
+    isInitiatorMessageDeleted: boolean;
     message: Message;
     sender: User;
     receiver: User;
 
     // additional
     isEditMessage: boolean;
+
 }
 
 export interface Message extends BasicEntity {

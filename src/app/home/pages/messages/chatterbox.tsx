@@ -181,7 +181,7 @@ function TextMessageContainer({userMessage, recipientId, editMessage}: {
     const [showMessageOptions, setMessageOptionsState] = useState<boolean>(false);
     const {theme} = useContext(ThemeContext);
     const isDarkMode = theme.palette.mode === 'dark';
-    const isRecipient = userMessage.receiverId !== recipientId;
+    const isRecipient = userMessage.recipientId !== recipientId;
     const isEmoji = !containsEmoji(userMessage.message.text);
     const backgroundColor = isEmoji
         ? isDarkMode
@@ -217,7 +217,7 @@ function TextMessageContainer({userMessage, recipientId, editMessage}: {
                     whiteSpace: 'pre-line'
                 }}>
                     {userMessage.message.text}
-                </Box> {userMessage.isEdited &&
+                </Box> {userMessage.isMessageEdited &&
                 <Tooltip title={shortDate(userMessage.updatedAt)}>
                     <Typography fontSize={'11px'} alignSelf={'flex-end'} sx={{cursor: 'pointer'}}>(edited)</Typography>
                 </Tooltip>
