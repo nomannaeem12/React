@@ -18,6 +18,7 @@ import messagesService from "../../../core/services/messages.service.ts";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import {DeleteUserMessageDialog} from "./components/deleteUserMessageDialog.tsx";
 
 export function Chatterbox() {
     const {recipientId} = useParams();
@@ -64,15 +65,21 @@ export function Chatterbox() {
         }
     };
 
-    const handleEdit = (userMessageToEdit: UserMessage) => {
+    const onEditUserMessage = (userMessageToEdit: UserMessage) => {
         setUserMessages(userMessages.map(userMessage => ({
             ...userMessage,
             isEditMessage: userMessage.id === userMessageToEdit.id
         })))
     }
 
-    const handleEdited = (editedUserMessage: UserMessage) => {
+    const handleEditUserMessage = (editedUserMessage: UserMessage) => {
         setUserMessages(userMessages.map(userMessage => userMessage.id === editedUserMessage.id ? editedUserMessage : userMessage));
+    }
+
+
+    const handleDelete = (deletedUserMessage?: UserMessage) => {
+        if (deletedUserMessage)
+            setUserMessages(userMessages.filter(userMessage => userMessage.id !== deletedUserMessage.id ? deletedUserMessage : userMessage));
     }
 
     return (
@@ -141,13 +148,14 @@ export function Chatterbox() {
                                             onClose={() => setUserMessages(userMessages.map(userMessage => ({
                                                 ...userMessage, isEditMessage: false
                                             })))}
-                                            editedMessage={handleEdited}
+                                            editedMessage={handleEditUserMessage}
                                         />
                                         :
                                         <TextMessageContainer
                                             userMessage={userMessage}
                                             recipientId={recipient.id}
-                                            editMessage={handleEdit}
+                                            editMessage={onEditUserMessage}
+                                            removeDeletedMessage={handleDelete}
                                         />
                                     }
                                 </Box>
@@ -173,10 +181,11 @@ export function Chatterbox() {
     )
 }
 
-function TextMessageContainer({userMessage, recipientId, editMessage}: {
+function TextMessageContainer({userMessage, recipientId, editMessage, removeDeletedMessage}: {
     userMessage: UserMessage,
     recipientId: number,
-    editMessage: (userMessage: UserMessage) => void
+    editMessage: (userMessage: UserMessage) => void,
+    removeDeletedMessage: (userMessage: UserMessage) => void,
 }) {
     const [showMessageOptions, setMessageOptionsState] = useState<boolean>(false);
     const {theme} = useContext(ThemeContext);
@@ -224,7 +233,8 @@ function TextMessageContainer({userMessage, recipientId, editMessage}: {
             }
                 {showMessageOptions &&
                     <>
-                        <MessageOptions isRecipient={isRecipient} userMessage={userMessage} editMessage={editMessage}/>
+                        <MessageOptions isRecipient={isRecipient} userMessage={userMessage} editMessage={editMessage}
+                                        removeDeletedMessage={removeDeletedMessage}/>
                     </>
                 }
             </Box>
@@ -232,11 +242,13 @@ function TextMessageContainer({userMessage, recipientId, editMessage}: {
     )
 }
 
-function MessageOptions({isRecipient, userMessage, editMessage}: {
+function MessageOptions({isRecipient, userMessage, editMessage, removeDeletedMessage}: {
     isRecipient: boolean,
     userMessage: UserMessage,
-    editMessage: (userMessage: UserMessage) => void
+    editMessage: (userMessage: UserMessage) => void,
+    removeDeletedMessage: (userMessage: UserMessage) => void
 }) {
+    const [openMessageDeleteDialog, setOpenMessageDeleteDialog] = useState<UserMessage | null>(null);
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -247,8 +259,17 @@ function MessageOptions({isRecipient, userMessage, editMessage}: {
     };
     const handleEdit = () => {
         editMessage(userMessage)
-        setAnchorEl(null);
+        handleClose();
     };
+    const onDelete = () => {
+        setOpenMessageDeleteDialog(userMessage);
+    }
+
+    const handleDelete = (deletedUserMessage?: UserMessage) => {
+        if (deletedUserMessage)
+            removeDeletedMessage(deletedUserMessage);
+        setOpenMessageDeleteDialog(null);
+    }
 
     return (
         <div>
@@ -292,8 +313,7 @@ function MessageOptions({isRecipient, userMessage, editMessage}: {
                         <EditIcon sx={{fontSize: '20px'}}/>
                     </MenuItem>}
                 <MenuItem
-                    disabled={true}
-                    onClick={handleClose}
+                    onClick={onDelete}
                     sx={{
                         margin: '5px 0', borderRadius: '10px',
                         display: 'flex',
@@ -305,6 +325,11 @@ function MessageOptions({isRecipient, userMessage, editMessage}: {
                     <DeleteIcon sx={{fontSize: '20px'}}/>
                 </MenuItem>
             </Menu>
+            <DeleteUserMessageDialog
+                userMessage={openMessageDeleteDialog}
+                isRecipient={isRecipient}
+                onClose={handleDelete}
+            />
         </div>
     );
 }
@@ -383,6 +408,16 @@ export interface CreateUserMessageDto {
 }
 
 export interface UpdateUserMessageDto extends Partial<CreateUserMessageDto> {
+}
+
+export interface DeleteUserMessageDto {
+    deleteType: DeleteUserMessageType;
+}
+
+export enum DeleteUserMessageType {
+    DeleteInitiatedMessage = 'DeleteInitiatedMessage',
+    DeleteRecipientMessage = 'DeleteRecipientMessage',
+    DeleteForEveryone = 'DeleteForEveryone',
 }
 
 export interface UserMessageDto {

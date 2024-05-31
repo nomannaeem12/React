@@ -18,8 +18,8 @@ export interface UserMessage extends BasicEntity {
     recipientId: number;
     isMessageEdited: boolean;
     isMessageRead: boolean;
-    isRecipientMessageDeleted: boolean;
-    isInitiatorMessageDeleted: boolean;
+    recipientMessageDeleted: boolean;
+    initiatorMessageDeleted: boolean;
     message: Message;
     sender: User;
     receiver: User;
