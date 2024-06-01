@@ -194,7 +194,7 @@ function TextMessageContainer({userMessage, recipientId, editMessage, removeDele
     const isEmoji = !containsEmoji(userMessage.message.text);
     const backgroundColor = isEmoji
         ? isDarkMode
-            ? (isRecipient ? 'black' : '#3797f0')
+            ? (isRecipient ? '#262626' : '#3797f0')
             : (isRecipient ? '#efefef' : '#3797f0')
         : 'transparent';
 
@@ -368,7 +368,7 @@ function EditMessageContainer({userMessage, editedMessage, onClose}: {
     return (
         <>
             <Box sx={{
-                background: `${theme.palette.mode === 'dark' ? '#1e1b1f' : '#241f260a'}`, margin: '8px 0', p: 2, pb: 0,
+                background: `${theme.palette.mode === 'dark' ? '#262626' : '#241f260a'}`, margin: '8px 0', p: 2, pb: 0,
                 borderLeft: `10px solid ${theme.palette.mode === 'dark' ? '#5f9ea07d' : '#241f264f'}`,
                 borderRadius: '10px'
             }}>
