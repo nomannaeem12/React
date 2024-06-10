@@ -19,21 +19,22 @@ export function DeleteUserMessageDialog(props: ContentProps) {
     const {onClose, userMessage, isRecipient} = props;
 
 
-    function handleClose() {
-        onClose();
+    function handleClose(deletedMessage?: UserMessage) {
+        if (deletedMessage)
+            onClose(deletedMessage);
     }
 
     function deleteMessageForIndividual() {
         if (!userMessage) return;
-        messagesService.deleteMessage(userMessage.id, {deleteType: (isRecipient ? 'DeleteRecipientMessage' : 'DeleteInitiatedMessage') as DeleteUserMessageType}).then((res) => {
-            console.log(res)
+        messagesService.deleteMessage(userMessage.id, {deleteType: (isRecipient ? 'DeleteRecipientMessage' : 'DeleteInitiatedMessage') as DeleteUserMessageType}).then((response) => {
+            handleClose(userMessage);
         })
     }
 
     function deleteMessageFromEverywhere() {
         if (!userMessage) return;
-        messagesService.deleteMessage(userMessage.id, {deleteType: 'DeleteForEveryone' as DeleteUserMessageType}).then((res) => {
-            console.log(res)
+        messagesService.deleteMessage(userMessage.id, {deleteType: 'DeleteForEveryone' as DeleteUserMessageType}).then((response) => {
+            handleClose(userMessage);
         })
     }
 

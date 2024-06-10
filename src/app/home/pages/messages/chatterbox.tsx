@@ -79,7 +79,7 @@ export function Chatterbox() {
 
     const handleDelete = (deletedUserMessage?: UserMessage) => {
         if (deletedUserMessage)
-            setUserMessages(userMessages.filter(userMessage => userMessage.id !== deletedUserMessage.id ? deletedUserMessage : userMessage));
+            setUserMessages(userMessages.filter(userMessage => userMessage.id !== deletedUserMessage.id));
     }
 
     return (
@@ -263,6 +263,7 @@ function MessageOptions({isRecipient, userMessage, editMessage, removeDeletedMes
     };
     const onDelete = () => {
         setOpenMessageDeleteDialog(userMessage);
+        handleClose();
     }
 
     const handleDelete = (deletedUserMessage?: UserMessage) => {
