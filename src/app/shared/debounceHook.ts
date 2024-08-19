@@ -4,7 +4,7 @@ export function useDebounce<T extends (...args: any[]) => void>(callback: T, del
     const [timeoutId, setTimeoutId] = useState<number>(0);
 
     useEffect(() => {
-        const newTimeoutId = setTimeout(callback, delay);
+        const newTimeoutId = setTimeout(callback, delay) as unknown as number;
         setTimeoutId(newTimeoutId);
         return () => clearTimeout(newTimeoutId);
     }, deps);

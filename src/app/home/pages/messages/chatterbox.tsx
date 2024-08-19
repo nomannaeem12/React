@@ -58,12 +58,13 @@ export function Chatterbox() {
         })
     }
 
-    const handleKeyDown = (e) => {
+    const handleKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
             handleSubmit(e);
         }
     };
+
 
     const onEditUserMessage = (userMessageToEdit: UserMessage) => {
         setUserMessages(userMessages.map(userMessage => ({
@@ -356,7 +357,7 @@ function EditMessageContainer({userMessage, editedMessage, onClose}: {
         })
     }
 
-    const handleKeyDown = (e) => {
+    const handleKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === 'Escape') {
             onClose();
         }
@@ -365,6 +366,7 @@ function EditMessageContainer({userMessage, editedMessage, onClose}: {
             handleSubmit(e);
         }
     };
+
 
     return (
         <>

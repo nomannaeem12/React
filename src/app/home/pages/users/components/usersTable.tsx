@@ -31,7 +31,7 @@ export function UsersTable({users}: { users: User[] }) {
             field: 'createdAt',
             headerName: 'CreatedAt',
             width: 160,
-            valueFormatter: (value, row) => `${shortDate(row.createdAt)}`
+            valueFormatter: (params: { value: any; row: typeof rows[number] }) => `${shortDate(params.row.createdAt)}`,
         },
     ];
     const rows = [...users];

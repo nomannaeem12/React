@@ -35,7 +35,7 @@ export function SignUp() {
     const handleAddUser = (values: FormValues) => {
         setIsLoading(true);
         usersService.addUser(values)
-            .then((response) => {
+            .then(() => {
                 setSnackbarState({open: true, message: `User Added Successfully`});
                 resetForm();
                 signInPage();

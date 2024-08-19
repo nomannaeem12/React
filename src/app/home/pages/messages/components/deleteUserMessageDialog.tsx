@@ -26,21 +26,21 @@ export function DeleteUserMessageDialog(props: ContentProps) {
 
     function deleteMessageForIndividual() {
         if (!userMessage) return;
-        messagesService.deleteMessage(userMessage.id, {deleteType: (isRecipient ? 'DeleteRecipientMessage' : 'DeleteInitiatedMessage') as DeleteUserMessageType}).then((response) => {
+        messagesService.deleteMessage(userMessage.id, {deleteType: (isRecipient ? 'DeleteRecipientMessage' : 'DeleteInitiatedMessage') as DeleteUserMessageType}).then(() => {
             handleClose(userMessage);
         })
     }
 
     function deleteMessageFromEverywhere() {
         if (!userMessage) return;
-        messagesService.deleteMessage(userMessage.id, {deleteType: 'DeleteForEveryone' as DeleteUserMessageType}).then((response) => {
+        messagesService.deleteMessage(userMessage.id, {deleteType: 'DeleteForEveryone' as DeleteUserMessageType}).then(() => {
             handleClose(userMessage);
         })
     }
 
     return (
         <>
-            <Dialog open={!!userMessage} onClose={handleClose}>
+            <Dialog open={!!userMessage} onClose={() => handleClose}>
                 <DialogTitle>
                     Delete message?
                 </DialogTitle>
@@ -59,7 +59,7 @@ export function DeleteUserMessageDialog(props: ContentProps) {
                     <Button variant='contained' color='inherit' size='small'
                             onClick={deleteMessageForIndividual}>Delete {!isRecipient && <>for
                         me</>}</Button>
-                    <Button variant='contained' color='inherit' size='small' onClick={handleClose}>cancel</Button>
+                    <Button variant='contained' color='inherit' size='small' onClick={() => handleClose}>cancel</Button>
                 </DialogActions>
             </Dialog>
         </>

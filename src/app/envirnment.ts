@@ -1,3 +1,3 @@
-export const environment: {baseurl: string} = {
-    baseurl: 'http://localhost:3000',
+export const environment: { baseurl: string } = {
+    baseurl: 'https://social-network-db.onrender.com',
 };
