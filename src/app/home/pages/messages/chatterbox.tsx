@@ -1,5 +1,15 @@
 import {useParams} from "react-router-dom";
-import {Card, CardActions, CardContent, CardHeader, Menu, MenuItem, TextField, Tooltip} from "@mui/material";
+import {
+    Card,
+    CardActions,
+    CardContent,
+    CardHeader,
+    CircularProgress,
+    Menu,
+    MenuItem,
+    TextField,
+    Tooltip
+} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import React, {useContext, useEffect, useState} from "react";
 import {LoaderContext} from "../../../core/providers/loaderProvider.tsx";
@@ -7,6 +17,7 @@ import {User, UserMessage} from "../../../core/interfaces/user.ts";
 import usersService, {getSignedInUser} from "../../../core/services/users.service.ts";
 import StringAvatar from "../../../shared/components/stringAvatar.tsx";
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import RefreshIcon from '@mui/icons-material/Refresh';
 import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
@@ -28,13 +39,17 @@ export function Chatterbox() {
     const [text, setText] = useState<string>('');
     const [userMessages, setUserMessages] = useState<UserMessage[]>([]);
     const {userProfile} = navigationService();
+    const [isSendingMessage, setIsSendingMessage] = useState<Boolean>(false);
+    const [isLoadingNewMessages, setIsLoadingNewMessages] = useState<Boolean>(false);
 
     function filteredUserMessages() {
         const payload: UserMessageDto = {initiatorId: getSignedInUser().id, recipientId: +recipientId!};
+        setIsLoadingNewMessages(true);
         messagesService.getMessages(payload).then((response) => {
             const messages: UserMessage[] = [...response.inbox, ...response.outbox];
             messages.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
             setUserMessages(messages);
+            setIsLoadingNewMessages(false);
         })
     }
 
@@ -51,10 +66,12 @@ export function Chatterbox() {
     function handleSubmit(event: { preventDefault: () => void; }) {
         event.preventDefault();
         if (!text.trim()) return;
+        setIsSendingMessage(true);
         const payload: CreateUserMessageDto = {text: text, recipientId: +recipientId!};
         messagesService.sendMessage(payload).then((response) => {
             setUserMessages([...userMessages, response]);
             setText('');
+            setIsSendingMessage(false);
         })
     }
 
@@ -99,9 +116,16 @@ export function Chatterbox() {
                         <StringAvatar name={`${recipient.firstName.trim()} ${recipient.lastName.trim()}`} size={40}/>
                     }
                     action={
-                        <IconButton aria-label="info">
-                            <InfoOutlinedIcon fontSize="large"/>
-                        </IconButton>
+                        <>
+                            <IconButton aria-label="refresh" onClick={() => filteredUserMessages()}>
+                                {!isLoadingNewMessages ? <RefreshIcon fontSize="large" color={"error"}/> :
+                                    <CircularProgress size={20}/>}
+                            </IconButton>
+
+                            <IconButton aria-label="info" disabled={true}>
+                                <InfoOutlinedIcon fontSize="large"/>
+                            </IconButton>
+                        </>
                     }
                     title={
                         <Typography component="div" variant="h6" sx={{lineHeight: '1'}}>
@@ -174,6 +198,10 @@ export function Chatterbox() {
                             multiline
                             onChange={(e) => setText(e.target.value)}
                             onKeyDown={handleKeyDown}
+                            InputProps={{
+                                endAdornment: isSendingMessage ? <CircularProgress size={20}/> : <></>
+                            }}
+                            disabled={isSendingMessage == true}
                         />
                     </form>
                 </CardActions>
@@ -342,6 +370,7 @@ function EditMessageContainer({userMessage, editedMessage, onClose}: {
     onClose: () => void
 }) {
     const [text, setText] = useState<string>('');
+    const [isEditingMessage, setIsEditingMessage] = useState<boolean>(false);
     const {theme} = useContext(ThemeContext);
 
     useEffect(() => {
@@ -350,10 +379,12 @@ function EditMessageContainer({userMessage, editedMessage, onClose}: {
 
     function handleSubmit(event: { preventDefault: () => void; }) {
         event.preventDefault();
+        setIsEditingMessage(true);
         if (!text.trim() || text === userMessage.message.text) return;
         const payload: UpdateUserMessageDto = {text: text};
         messagesService.editMessage(userMessage.id, payload).then((response) => {
             editedMessage(response);
+            setIsEditingMessage(false);
         })
     }
 
@@ -384,6 +415,9 @@ function EditMessageContainer({userMessage, editedMessage, onClose}: {
                         value={text}
                         onChange={(event) => setText(event.target.value)}
                         onKeyDown={handleKeyDown}
+                        InputProps={{
+                            endAdornment: isEditingMessage ? <CircularProgress size={20}/> : <></>,
+                        }}
                     />
                 </form>
                 <Box sx={{p: 1, display: 'flex', fontSize: 'small'}}>
