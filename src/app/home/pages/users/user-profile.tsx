@@ -6,9 +6,8 @@ import {LoaderContext} from "../../../core/providers/loaderProvider.tsx";
 import Box from "@mui/material/Box";
 import StringAvatar from "../../../shared/components/stringAvatar.tsx";
 import {Card} from "@mui/material";
-import EditRoundedIcon from '@mui/icons-material/EditRounded';
-import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import IconButton from "@mui/material/IconButton";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
 export function UserProfile() {
     const {id} = useParams();
@@ -40,10 +39,7 @@ export function UserProfile() {
                         </Box>
                         <Box sx={{ml: 4}}>
                             <IconButton color='secondary'>
-                                <EditRoundedIcon/>
-                            </IconButton>
-                            <IconButton color='error'>
-                                <DeleteRoundedIcon/>
+                                <InfoOutlinedIcon fontSize="large"/>
                             </IconButton>
                         </Box>
                     </Box>
